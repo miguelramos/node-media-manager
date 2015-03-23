@@ -17,15 +17,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-var path = require('path');
+var path = require('path'),
+    Folder = require('./lib/folder');
 
 module.exports = Browser;
 
 function Browser(){
+    var folder = new Folder();
 
+    folder.open(path.join(__dirname, 'test', 'home'));
 }
 
-browser.express = function(options) {
+Browser.express = function(options) {
     var home = options.home || __dirname;
 
     var middleware = function(req, res, next) {
@@ -34,3 +37,5 @@ browser.express = function(options) {
 
     return middleware;
 };
+
+Browser();
