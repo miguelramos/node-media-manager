@@ -1,0 +1,24 @@
+{
+  "name": "browser",
+  "version": "1.0.0",
+  "description": "Media file browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "private": true,
+  "keywords": [
+    "browser",
+    "file",
+    "media"
+  ],
+  "author": "Miguel Ramos <miguel.marques.ramos@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.2.1",
+    "should": "^5.2.0"
+  },
+  "dependencies": {
+    "underscore": "^1.8.2"
+  }
+}
