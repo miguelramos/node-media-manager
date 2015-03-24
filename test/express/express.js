@@ -118,4 +118,32 @@ describe('#express', function(){
 
         request(app).post('/browser/find?root=%2F').send({"search": "pdf"}).expect(200, done);
     });
+
+    it('POST /browser/find?root=/', function(done){
+        var app = express();
+
+        app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({ extended: true }));
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }));
+
+        app.post('/browser/find', function(req, res){
+            var browser = req.browser;
+
+            browser.open(browser.current, function(list){
+                var search = req.body.hasOwnProperty('search') ? req.body.search : null;
+
+                var folder = browser.find(search),
+                    status = folder ? 200 : 400;
+
+                folder.should.have.property('type');
+
+                res.status(status).send(folder);
+            });
+        });
+
+        request(app).post('/browser/find?root=%2F').send({"search": "mydocs"}).expect(200, done);
+    });
 });

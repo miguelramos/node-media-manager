@@ -43,9 +43,6 @@ function Browser(){
     var folder = new Folder(settings.home);
 
     return folder;
-    /*folder.open(path.join(__dirname, 'test', 'home'), function(files){
-        folder.find('pdf');
-    });*/
 }
 
 Browser.express = require('./lib/express');
