@@ -17,20 +17,36 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-var path = require('path'),
+var path   = require('path'),
+    mime   = require('./lib/mime'),
+    utils  = require('./lib/utils'),
     Folder = require('./lib/folder');
 
 module.exports = Browser;
 
 function Browser(){
-    var folder = new Folder(path.join(__dirname, 'test', 'home'));
+    var args     = [].splice.call(arguments, 0),
+        options  = args.splice(0, 1)[0],
+        settings = {home: __dirname};
 
-    folder.open(path.join(__dirname, 'test', 'home'), function(files){
+    if(toString.call(options) === '[object Object]') {
+        settings = {
+            home  : options.hasOwnProperty('home') ? options.home : __dirname,
+            mimes : options.hasOwnProperty('mimes') ? options.mimes : {}
+        };
+
+        settings = utils.merge(settings, options);
+
+        mime.setMimes(settings.mimes);
+    }
+
+    var folder = new Folder(settings.home);
+
+    return folder;
+    /*folder.open(path.join(__dirname, 'test', 'home'), function(files){
         folder.find('pdf');
-    });
+    });*/
 }
 
 Browser.express = require('./lib/express');
-Browser.mimes   = require('./lib/stat');
-
-Browser();
+Browser.mimes   = mime;

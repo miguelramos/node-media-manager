@@ -9,7 +9,7 @@
  * ╚══╝╚══╝ ╚══════╝╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝
  *
  * ----------------------------------------------------------------------------
- * utils.js
+ * browser.js
  * ----------------------------------------------------------------------------
  *
  * This file is part of browser Project.
@@ -17,40 +17,42 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-var util = require('util'),
-    _    = require('underscore');
+var should  = require('should'),
+    path    = require('path'),
+    Browser = require('../');
 
-//@TODO: more options and bootstrap definitions
-module.exports.template = function(tree) {
-    var html = [];
+describe('#browser', function(){
+    it('Should require browser mime and get default types.', function(){
+        var stat = Browser.mimes.getMimes();
 
-    _.each(tree, function(item){
-        var link = util.format('<a data-type="%s" data-path="%s" class="">%s</a>', item.type, item.relative, item.name);
+        var types = {
+            'compressed' : ['zip', 'rar', 'gz', 'tar'],
+            'text'       : ['txt', 'md', 'nfo'],
+            'image'      : ['jpg', 'jpge', 'png', 'gif', 'bmp', 'svg'],
+            'pdf'        : ['pdf'],
+            'css'        : ['css'],
+            'html'       : ['html'],
+            'word'       : ['doc', 'docx'],
+            'powerpoint' : ['ppt', 'pptx'],
+            'movie'      : ['mkv', 'avi', 'rmvb', 'mpeg', 'wmv']
+        };
 
-        html.push(link);
+        stat.should.be.eql(types);
     });
 
-    return html;
-};
-
-module.exports.merge = function merge() {
-    var dst = {}, src, p, args = [].splice.call(arguments, 0);
-
-    while (args.length > 0) {
-        src = args.splice(0, 1)[0];
-
-        if (toString.call(src) == '[object Object]') {
-            for (p in src) {
-                if (src.hasOwnProperty(p)) {
-                    if (toString.call(src[p]) == '[object Object]') {
-                        dst[p] = merge(dst[p] || {}, src[p]);
-                    } else {
-                        dst[p] = src[p];
-                    }
-                }
+    it('Should browser function init folder with settings.', function(){
+        var settings = {
+            home: path.join(__dirname, 'home'),
+            mimes: {
+                'excel': ['xsl'],
+                'xml': ['xml']
             }
-        }
-    }
+        };
 
-    return dst;
-};
+        var browser = Browser(settings);
+
+        browser.should.have.property('home').eql(path.join(__dirname, 'home'));
+
+        Browser.mimes.reset();
+    });
+});
