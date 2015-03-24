@@ -20,7 +20,6 @@
     "supertest": "^0.15.0"
   },
   "dependencies": {
-    "merge": "^1.2.0",
     "string": "^3.1.0",
     "underscore": "^1.8.2"
   }
