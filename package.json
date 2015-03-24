@@ -16,7 +16,8 @@
   "license": "MIT",
   "devDependencies": {
     "mocha": "^2.2.1",
-    "should": "^5.2.0"
+    "should": "^5.2.0",
+    "supertest": "^0.15.0"
   },
   "dependencies": {
     "merge": "^1.2.0",

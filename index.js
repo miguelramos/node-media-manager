@@ -30,14 +30,7 @@ function Browser(){
     });
 }
 
-Browser.express = function(options) {
-    var home = options.home || __dirname;
-
-    var middleware = function(req, res, next) {
-
-    };
-
-    return middleware;
-};
+Browser.express = require('./lib/express');
+Browser.mimes   = require('./lib/stat');
 
 Browser();
