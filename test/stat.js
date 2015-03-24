@@ -28,6 +28,7 @@ describe('#state', function(){
         stat.should.have.property('name', 'home');
         stat.should.have.property('path', path.join(__dirname, 'home'));
         stat.should.have.property('type', 'folder');
+        stat.should.have.property('display');
     });
 
     it('Should have file properties name, path and type.', function(){
@@ -36,5 +37,49 @@ describe('#state', function(){
         stat.should.have.property('name', 'mongodb.pdf');
         stat.should.have.property('path', path.join(__dirname, 'home', 'mongodb.pdf'));
         stat.should.have.property('type', 'pdf');
+        stat.should.have.property('display');
+    });
+
+    it('Should have default mime types.', function(){
+        var stat = mime.getMimes();
+
+        var types = {
+            'compressed' : ['zip', 'rar', 'gz', 'tar'],
+            'text'       : ['txt', 'md', 'nfo'],
+            'image'      : ['jpg', 'jpge', 'png', 'gif', 'bmp', 'svg'],
+            'pdf'        : ['pdf'],
+            'css'        : ['css'],
+            'html'       : ['html'],
+            'word'       : ['doc', 'docx'],
+            'powerpoint' : ['ppt', 'pptx'],
+            'movie'      : ['mkv', 'avi', 'rmvb', 'mpeg', 'wmv']
+        };
+
+        stat.should.be.eql(types);
+    });
+
+    it('Should append more mime types.', function(){
+        mime.setMimes({
+            'excel': ['xsl'],
+            'xml': ['xml']
+        });
+
+        var stat = mime.getMimes();
+
+        var types = {
+            'compressed' : ['zip', 'rar', 'gz', 'tar'],
+            'text'       : ['txt', 'md', 'nfo'],
+            'image'      : ['jpg', 'jpge', 'png', 'gif', 'bmp', 'svg'],
+            'pdf'        : ['pdf'],
+            'css'        : ['css'],
+            'html'       : ['html'],
+            'word'       : ['doc', 'docx'],
+            'powerpoint' : ['ppt', 'pptx'],
+            'movie'      : ['mkv', 'avi', 'rmvb', 'mpeg', 'wmv'],
+            'excel'      : ['xsl'],
+            'xml'        : ['xml']
+        };
+
+        stat.should.be.eql(types);
     });
 });

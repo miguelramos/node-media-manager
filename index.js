@@ -23,9 +23,11 @@ var path = require('path'),
 module.exports = Browser;
 
 function Browser(){
-    var folder = new Folder();
+    var folder = new Folder(path.join(__dirname, 'test', 'home'));
 
-    folder.open(path.join(__dirname, 'test', 'home'));
+    folder.open(path.join(__dirname, 'test', 'home'), function(files){
+        folder.find('pdf');
+    });
 }
 
 Browser.express = function(options) {
