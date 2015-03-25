@@ -22,6 +22,8 @@ function Browser(){
         options  = args.splice(0, 1)[0],
         settings = {home: __dirname};
 
+    var toString = Object.prototype.toString;
+
     if(toString.call(options) === '[object Object]') {
         settings = {
             home  : options.hasOwnProperty('home') ? options.home : __dirname,
