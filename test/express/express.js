@@ -6,6 +6,35 @@ var should  = require('should'),
     bodyParser = require('body-parser');
 
 describe('#express', function(){
+    it('Should have function for middleware.', function(){
+
+        var middleware = Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        });
+
+        middleware.should.Function;
+    });
+
+    it('Should middleware add new property to Browser instance.', function(done){
+
+        var app = express();
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }), function(req, resp, next) {
+            req.should.have.property('browser');
+            req.browser.should.have.property('current').String;
+
+            next();
+        });
+
+        app.get('/browser', function(req, res){
+            res.status(200).send({ success: true });
+        });
+
+        request(app).get('/browser').expect(200, done);
+    });
+
     it('Should request have property browser with value folder instance.', function(done){
         var app = express();
 
@@ -21,6 +50,7 @@ describe('#express', function(){
 
         request(app).get('/browser').expect(200, done);
     });
+
 
     it('GET /browser?root=/', function(done){
         var app = express();
