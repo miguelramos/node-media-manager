@@ -1,4 +1,4 @@
 test:
-	./node_modules/.bin/mocha --recursive --check-leaks --reporter spec
+	./node_modules/.bin/mocha --check-leaks --reporter spec
 
 .PHONY: test
