@@ -16,8 +16,11 @@
   "license": "MIT",
   "devDependencies": {
     "body-parser": "^1.12.2",
+    "codecov.io": "0.0.8",
     "express": "^4.12.3",
+    "istanbul": "^0.3.11",
     "mocha": "^2.2.1",
+    "mocha-lcov-reporter": "0.0.2",
     "should": "^5.2.0",
     "supertest": "^0.15.0"
   },
