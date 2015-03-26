@@ -1,5 +1,5 @@
-Media File Browser
-=================
+Node Media Manager
+==================
 
 [![Author](https://img.shields.io/badge/author-miguelramos-blue.svg)](https://twitter.com/miguelonspring)
 [![Build Status](https://travis-ci.org/miguelramos/node-media-manager.svg?branch=master)](https://travis-ci.org/miguelramos/node-media-manager)
@@ -7,4 +7,6 @@ Media File Browser
 [![Code Climate](https://codeclimate.com/github/miguelramos/node-media-manager/badges/gpa.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 [![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 
-## IN PROGRESS
+## File Browser
+
+For now check tests how to use. Work in progress.
