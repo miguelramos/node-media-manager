@@ -77,8 +77,7 @@ describe('#stat', function(){
         stat.should.be.eql(types);
     });
 
-    it('Should throw exception.', function(){
-        //expect(mime.stat.bind(mime.stat, 'path/xpto')).to.throw(Error);
+    it('Should throw exception path not found.', function(){
         mime.stat.bind(mime.stat, 'path/xpto').should.throw(Error);
     });
 });

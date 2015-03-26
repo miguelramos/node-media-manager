@@ -16,6 +16,16 @@ var Local  = require('../lib/local'),
     should = require('should');
 
 describe('#local', function(){
+    it('Should throw exception constructor path property.', function(){
+        (function() { new Local() }).should.throw(Error);
+    });
+
+    it('Should throw exception open wrong path.', function(){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.open.bind(folder, null).should.throw(Error);
+    });
+
     it('Should list folder with callback.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
@@ -38,6 +48,7 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onRead', function(rs){
+            debugger;
             var pdf = folder.find('pdf');
 
             pdf.should.have.property('type').eql('pdf');
