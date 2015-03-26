@@ -23,7 +23,7 @@ describe('#express', function(){
             home: path.join(__dirname, '..', 'home')
         }), function(req, resp, next) {
             req.should.have.property('browser');
-            req.browser.should.have.property('current').String;
+            req.browser.should.have.property('root').String;
 
             next();
         });
@@ -62,7 +62,7 @@ describe('#express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(err, list){
+            browser.open(browser.root, function(err, list){
 
                 list.should.have.property('files');
 
@@ -85,11 +85,11 @@ describe('#express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(err, list){
+            browser.open(browser.root, function(err, list){
+                debugger;
+                err.message.should.equal("Permission denied to access folder outside home.");
 
-                browser.current.should.equal(path.join(__dirname, '..', '..'));
-
-                res.status(200).send(list);
+                res.status(200).send({});
             });
         });
 
@@ -106,7 +106,7 @@ describe('#express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(err, list){
+            browser.open(browser.root, function(err, list){
 
                 list.should.have.property('files');
 
@@ -129,7 +129,7 @@ describe('#express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(err, list){
+            browser.open(browser.root, function(err, list){
 
                 list.should.have.property('files');
 
@@ -155,7 +155,7 @@ describe('#express', function(){
         app.post('/browser/find', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(err, list){
+            browser.open(browser.root, function(err, list){
                 var search = req.body.hasOwnProperty('search') ? req.body.search : null;
 
                 var pdf = browser.find(search),
@@ -183,7 +183,7 @@ describe('#express', function(){
         app.post('/browser/find', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(err, list){
+            browser.open(browser.root, function(err, list){
                 var search = req.body.hasOwnProperty('search') ? req.body.search : null;
 
                 var folder = browser.find(search),

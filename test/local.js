@@ -33,7 +33,7 @@ describe('#local', function(){
     it('Should list folder with callback.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
-        folder.open(path.join(__dirname, 'home'), function(err, rs){
+        folder.open("/", function(err, rs){
             done();
         });
     });
@@ -41,17 +41,17 @@ describe('#local', function(){
     it('Should list folder with event emitter.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
-        folder.on('onRead', function(rs){
+        folder.on('onRead', function(err, rs){
             done();
         });
 
-        folder.open(path.join(__dirname, 'home'));
+        folder.open("/");
     });
 
     it('Should find file by extension.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
-        folder.on('onRead', function(rs){
+        folder.on('onRead', function(err, rs){
             var pdf = folder.find('pdf');
 
             pdf.should.have.property('type').eql('pdf');
@@ -59,13 +59,13 @@ describe('#local', function(){
             done();
         });
 
-        folder.open(path.join(__dirname, 'home'));
+        folder.open("/");
     });
 
     it('Should find folder.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
-        folder.on('onRead', function(rs){
+        folder.on('onRead', function(err, rs){
             var fold = folder.find('mydocs');
 
             fold.should.have.property('type').eql('folder');
@@ -73,13 +73,13 @@ describe('#local', function(){
             done();
         });
 
-        folder.open(path.join(__dirname, 'home'));
+        folder.open("/");
     });
 
     it('Should find file that name contains string.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
-        folder.on('onRead', function(rs){
+        folder.on('onRead', function(err, rs){
             var fl = folder.find('db');
 
             fl.should.have.property('name').containEql('db');
@@ -87,6 +87,6 @@ describe('#local', function(){
             done();
         });
 
-        folder.open(path.join(__dirname, 'home'));
+        folder.open("/");
     });
 });
