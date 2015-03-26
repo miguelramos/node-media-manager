@@ -62,7 +62,7 @@ describe('#express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(list){
+            browser.open(browser.current, function(err, list){
 
                 list.should.have.property('files');
 
@@ -85,7 +85,7 @@ describe('#express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(list){
+            browser.open(browser.current, function(err, list){
 
                 browser.current.should.equal(path.join(__dirname, '..', '..'));
 
@@ -106,7 +106,7 @@ describe('#express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(list){
+            browser.open(browser.current, function(err, list){
 
                 list.should.have.property('files');
 
@@ -129,7 +129,7 @@ describe('#express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(list){
+            browser.open(browser.current, function(err, list){
 
                 list.should.have.property('files');
 
@@ -155,7 +155,7 @@ describe('#express', function(){
         app.post('/browser/find', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(list){
+            browser.open(browser.current, function(err, list){
                 var search = req.body.hasOwnProperty('search') ? req.body.search : null;
 
                 var pdf = browser.find(search),
@@ -183,7 +183,7 @@ describe('#express', function(){
         app.post('/browser/find', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.current, function(list){
+            browser.open(browser.current, function(err, list){
                 var search = req.body.hasOwnProperty('search') ? req.body.search : null;
 
                 var folder = browser.find(search),

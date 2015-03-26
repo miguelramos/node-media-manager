@@ -20,16 +20,20 @@ describe('#local', function(){
         (function() { new Local() }).should.throw(Error);
     });
 
-    it('Should throw exception open wrong path.', function(){
+    it('Should callback error be present.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
-        folder.open.bind(folder, null).should.throw(Error);
+        folder.open('/path/xpto', function(err, rs){
+            err.code.should.eql('ENOENT');
+
+            done();
+        });
     });
 
     it('Should list folder with callback.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
-        folder.open(path.join(__dirname, 'home'), function(rs){
+        folder.open(path.join(__dirname, 'home'), function(err, rs){
             done();
         });
     });
@@ -48,7 +52,6 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onRead', function(rs){
-            debugger;
             var pdf = folder.find('pdf');
 
             pdf.should.have.property('type').eql('pdf');
