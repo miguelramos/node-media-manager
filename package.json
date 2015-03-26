@@ -16,7 +16,12 @@
     "media"
   ],
   "author": "Miguel Ramos <miguel.marques.ramos@gmail.com>",
-  "license": "MIT",
+  "licenses": [
+    {
+        "type": "MIT",
+        "url": "https://github.com/miguelramos/node-media-manager/blob/master/LICENSE"
+    }
+  ],
   "devDependencies": {
     "body-parser": "^1.12.2",
     "coveralls": "^2.11.2",
