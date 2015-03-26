@@ -87,7 +87,7 @@ describe('#express', function(){
 
             browser.open(browser.current, function(list){
 
-                browser.current.should.equal(path.join(__dirname, '..', '..')+path.sep);
+                browser.current.should.equal(path.join(__dirname, '..', '..'));
 
                 res.status(200).send(list);
             });
