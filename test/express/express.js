@@ -75,7 +75,7 @@ describe('#express', function(){
         request(app).get('/browser?root=%2F').expect(200, done);
     });
 
-    it('Possible security breach: GET /browser?root=../../', function(done){
+    it('Possible security breach: GET /browser?root=../../../', function(done){
         var app = express();
 
         app.use(Browser.express({
@@ -86,14 +86,15 @@ describe('#express', function(){
             var browser = req.browser;
 
             browser.open(browser.root, function(err, list){
-                debugger;
-                err.message.should.equal("Permission denied to access folder outside home.");
+                if(err){
+                    err.message.should.equal("Permission denied to access folder outside home.");
+                }
 
                 res.status(200).send({});
             });
         });
 
-        request(app).get('/browser?root=..%2F..%2F').expect(200, done);
+        request(app).get('/browser?root=..%2F..%2F..%2F').expect(200, done);
     });
 
     it('GET /browser?root=/mydocs', function(done){
