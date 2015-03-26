@@ -76,4 +76,32 @@ describe('#state', function(){
 
         stat.should.be.eql(types);
     });
+/*
+    it('Should throw exception.', function(done){
+        function throwNextTick(error) {
+            process.nextTick(function () {
+                throw error;
+            });
+        }
+
+        var recordedError = null;
+        var originalException = process.listeners('uncaughtException').pop();
+
+        process.removeListener('uncaughtException', originalException);
+        process.once("uncaughtException", function (error) {
+            recordedError = error;
+        });
+
+        var error = mime.stat('path/xpto');
+
+        throwNextTick(error);
+
+        process.nextTick(function () {
+            process.listeners('uncaughtException').push(originalException);
+
+            recordedError.should.equal(error);
+
+            done();
+        });
+    });*/
 });
