@@ -13,7 +13,7 @@
  */
 var mime   = require('./lib/mime'),
     utils  = require('./lib/utils'),
-    Folder = require('./lib/folder');
+    Local = require('./lib/local');
 
 module.exports = Browser;
 
@@ -35,9 +35,9 @@ function Browser(){
         mime.setMimes(settings.mimes);
     }
 
-    var folder = new Folder(settings.home);
+    var local = new Local(settings.home);
 
-    return folder;
+    return local;
 }
 
 Browser.express = require('./lib/express');

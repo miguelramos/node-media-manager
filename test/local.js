@@ -11,13 +11,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-var Folder = require('../lib/folder'),
+var Local = require('../lib/local'),
     path   = require('path'),
     should = require('should');
 
-describe('#folder', function(){
+describe('#local', function(){
     it('Should list folder with callback.', function(done){
-        var folder = new Folder(path.join(__dirname, 'home'));
+        var folder = new Local(path.join(__dirname, 'home'));
 
         folder.open(path.join(__dirname, 'home'), function(rs){
             done();
@@ -25,7 +25,7 @@ describe('#folder', function(){
     });
 
     it('Should list folder with event emitter.', function(done){
-        var folder = new Folder(path.join(__dirname, 'home'));
+        var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onRead', function(rs){
             done();
@@ -35,7 +35,7 @@ describe('#folder', function(){
     });
 
     it('Should find file by extension.', function(done){
-        var folder = new Folder(path.join(__dirname, 'home'));
+        var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onRead', function(rs){
             var pdf = folder.find('pdf');
@@ -49,7 +49,7 @@ describe('#folder', function(){
     });
 
     it('Should find folder.', function(done){
-        var folder = new Folder(path.join(__dirname, 'home'));
+        var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onRead', function(rs){
             var fold = folder.find('mydocs');
@@ -63,7 +63,7 @@ describe('#folder', function(){
     });
 
     it('Should find file that name contains string.', function(done){
-        var folder = new Folder(path.join(__dirname, 'home'));
+        var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onRead', function(rs){
             var fl = folder.find('db');
