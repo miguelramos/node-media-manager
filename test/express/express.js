@@ -75,6 +75,27 @@ describe('#express', function(){
         request(app).get('/browser?root=%2F').expect(200, done);
     });
 
+    it('Possible security breach: GET /browser?root=../../', function(done){
+        var app = express();
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }));
+
+        app.get('/browser', function(req, res){
+            var browser = req.browser;
+
+            browser.open(browser.current, function(list){
+
+                browser.current.should.equal(path.join(__dirname, '..', '..')+path.sep);
+
+                res.status(200).send(list);
+            });
+        });
+
+        request(app).get('/browser?root=..%2F..%2F').expect(200, done);
+    });
+
     it('GET /browser?root=/mydocs', function(done){
         var app = express();
 
