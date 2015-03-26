@@ -15,7 +15,7 @@ var mime   = require('../lib/mime'),
     path   = require('path'),
     should = require('should');
 
-describe('#state', function(){
+describe('#stat', function(){
     it('Should have folder properties name, path and type.', function(){
         var stat = mime.stat(path.join(__dirname, 'home'));
 
@@ -76,32 +76,9 @@ describe('#state', function(){
 
         stat.should.be.eql(types);
     });
-/*
-    it('Should throw exception.', function(done){
-        function throwNextTick(error) {
-            process.nextTick(function () {
-                throw error;
-            });
-        }
 
-        var recordedError = null;
-        var originalException = process.listeners('uncaughtException').pop();
-
-        process.removeListener('uncaughtException', originalException);
-        process.once("uncaughtException", function (error) {
-            recordedError = error;
-        });
-
-        var error = mime.stat('path/xpto');
-
-        throwNextTick(error);
-
-        process.nextTick(function () {
-            process.listeners('uncaughtException').push(originalException);
-
-            recordedError.should.equal(error);
-
-            done();
-        });
-    });*/
+    it('Should throw exception.', function(){
+        //expect(mime.stat.bind(mime.stat, 'path/xpto')).to.throw(Error);
+        mime.stat.bind(mime.stat, 'path/xpto').should.throw(Error);
+    });
 });
