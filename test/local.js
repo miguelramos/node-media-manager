@@ -13,7 +13,8 @@
  */
 var Local  = require('../lib/local'),
     path   = require('path'),
-    should = require('should');
+    should = require('should'),
+    utils  = require('util');
 
 describe('#local', function(){
     it('Should throw exception constructor path property.', function(){
@@ -25,6 +26,44 @@ describe('#local', function(){
 
         folder.open('/path/xpto', function(err, rs){
             err.code.should.eql('ENOENT');
+
+            done();
+        });
+    });
+
+    it('Should event error be present.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onRead', function(err, rs){
+            err.code.should.eql('ENOENT');
+
+            done();
+        });
+
+        folder.open('/path/xpto');
+    });
+
+    it('Should test possible security breach on event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onRead', function(err, rs){
+            if(err){
+                err.message.should.equal("Permission denied to access folder outside home.");
+            }
+
+            done();
+        });
+
+        folder.open('../../../');
+    });
+
+    it('Should test possible security breach on callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.open('../../../', function(err, rs){
+            if(err){
+                err.message.should.equal("Permission denied to access folder outside home.");
+            }
 
             done();
         });
