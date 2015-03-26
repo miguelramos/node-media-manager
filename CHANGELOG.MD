@@ -5,6 +5,11 @@
 [![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 
 ### 2015-03-26
+    - Update README file.
+    - Updating package.json to publish to npm.
+    - Refactor security breach on middleware tests.
+    - Change property current to root on express middleware. Local method isOutside method to check possible security breach. Change emit and callback to emit/call error if present. Process is now responsible to throw callback. Added file nav to structuring navigation (like breadcrumb). Refactor tests to apply new changes.
+    - Updating bash script for badges.
     - Update read file and changelog bash script.
     - Local callback add error argument. Tests updated to error argument.
     - Remove search on item type because file name have extension. Tests on local and stat for exceptions.
@@ -33,14 +38,12 @@
     - Added coverall and author badge to read file.
     - Clean index file. Added express test to find folder.
     - Added module body-parser for test on express as dev.  Express middleware browser define a property called current on browser instance to define current folder to list. Added more express tests for middleware.
+
+### 2015-03-24
     - Prepare main function Browser on index. Added to MakeFile test for express. Added devdependencie of express. Init express tests. Added method to mime to reset mimes types to default.
     - Added node 0.12 to travis and removed 0.8 due incompatibles modules.
     - Added test to utils merge deep.
     - Remove merge module to be compatible with node 0.8. Added function merge to utils.
     - Added support for tracis-ci. Test with option check-leaks. Added express file for init middleware support.
-
-### 2015-03-24
     - Index file at the moment point to test. Added merge and string modules. Folder has to have argument home, defining home(base) dir. Added find method to search for file or folder. Added mime property display to check if is visible or hidden. Added function isHidden, only working on *unix systems. Method setMimes and getMimes added. Tests for new increments done it.
     - Transform mime to pattern object and add more methods.
-    - Init package project. Added initial files folder and mime. Test to this files done in mocha.
-    - Initial commit
