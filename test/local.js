@@ -47,11 +47,9 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onRead', function(err, rs){
-            process.nextTick(function () {
-                err.message.should.equal("Permission denied to access folder outside home.");
+            err.message.should.equal("Permission denied to access folder outside home.");
 
-                done();
-            });
+            done();
         });
 
         folder.open('../../../');
@@ -61,6 +59,7 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home'));
 
         folder.open('../../../', function(err, rs){
+            console.log(err);
             process.nextTick(function () {
                 err.message.should.equal("Permission denied to access folder outside home.");
 
