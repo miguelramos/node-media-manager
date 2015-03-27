@@ -210,4 +210,30 @@ describe('#local', function(){
 
         folder.add(image, 'mydocs');
     });
+
+    it('Should test folder do not exist with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
+
+        folder.add(image, 'myfolder', function(error, file){
+            process.nextTick(function () {
+                error.code.should.eql('ENOENT');
+
+                done();
+            });
+        });
+    });
+
+    it('Should test folder do not exist with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
+
+        folder.on('onAddFile', function(err, file){
+            err.code.should.eql('ENOENT');
+
+            done();
+        });
+
+        folder.add(image, 'myfolder');
+    });
 });
