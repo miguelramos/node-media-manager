@@ -119,3 +119,9 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 * 0.0.2 Fixing security check
 * 0.0.1 Initial release
+
+## Node Compatibility
+
+* 0.10
+* 0.11
+* 0.12

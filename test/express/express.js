@@ -1,8 +1,10 @@
 var should  = require('should'),
     path    = require('path'),
+    fs      = require('fs'),
     express = require('express'),
     request = require('supertest'),
     Browser = require('../../'),
+    parted  = require('parted'),
     bodyParser = require('body-parser');
 
 describe('#express', function(){
@@ -204,42 +206,34 @@ describe('#express', function(){
         var app   = express(),
             image = path.join(__dirname, '..', 'fixtures', 'code-wallpaper-java.png');
 
-        app.use(bodyParser());
+        app.use(parted({
+            // custom file path
+            path: '/tmp',
+            // memory usage limit per request
+            limit: 30 * 1024,
+            // disk usage limit per request
+            diskLimit: 30 * 1024 * 1024,
+            // enable streaming for json/qs
+            stream: false
+        }));
+
         app.use(Browser.express({
             home: path.join(__dirname, '..', 'home')
         }));
 
         app.post('/browser/upload', function(req, res){
-            /*var multipart = require('multipart');
+            var files   = req.files,
+                browser = req.browser;
 
-            var _upload = function(request, response) {
-                debugger;
-                request.setBodyEncoding('binary');
-
-                var stream = new multipart.Stream(request);
-
-                stream.addListener('part', function(part) {
-                    part.addListener('body', function(chunk) {
-                        var progress = (stream.bytesReceived / stream.bytesTotal * 100).toFixed(2);
-                        var mb = (stream.bytesTotal / 1024 / 1024).toFixed(1);
-
-                        //sys.print("Uploading "+mb+"mb ("+progress+"%)\015");
-
-                        // chunk could be appended to a file if the uploaded file needs to be saved
+            browser.add(files.wallpaper.path, browser.root, files.wallpaper.name, function(err, file){
+                process.nextTick(function() {
+                    fs.unlink(files.wallpaper.path, function(){
+                        res.status(200).send(file);
                     });
                 });
-
-                stream.addListener('complete', function() {
-                    response.status(200).send({ success: true });
-                });
-            }
-
-            process.nextTick(function () {
-                _upload(req, res);
-            });*/
-            response.status(200).send({ success: true });
+            });
         });
 
-        request(app).post('/browser/upload?root=%2Fmydocs').attach('wallpaper', image).expect(200, done);
+        request(app).post('/browser/upload?root=%2Fmydocs').field('Content-Type', 'multipart/form-data').attach('wallpaper', image).expect(200, done);
     });
 });
