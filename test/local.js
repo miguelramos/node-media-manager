@@ -47,11 +47,11 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onRead', function(err, rs){
-            if(err){
+            process.nextTick(function () {
                 err.message.should.equal("Permission denied to access folder outside home.");
-            }
 
-            done();
+                done();
+            });
         });
 
         folder.open('../../../');
@@ -61,11 +61,11 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home'));
 
         folder.open('../../../', function(err, rs){
-            if(err){
+            process.nextTick(function () {
                 err.message.should.equal("Permission denied to access folder outside home.");
-            }
 
-            done();
+                done();
+            });
         });
     });
 

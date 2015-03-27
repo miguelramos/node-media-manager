@@ -5,7 +5,8 @@ Node Media Manager
 [![Build Status](https://travis-ci.org/miguelramos/node-media-manager.svg?branch=master)](https://travis-ci.org/miguelramos/node-media-manager)
 [![Coverage Status](https://coveralls.io/repos/miguelramos/node-media-manager/badge.svg?branch=master)](https://coveralls.io/r/miguelramos/node-media-manager?branch=master)
 [![Code Climate](https://codeclimate.com/github/miguelramos/node-media-manager/badges/gpa.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
-[![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
+[![npm version](https://badge.fury.io/js/node-media-manager.svg)](http://badge.fury.io/js/node-media-manager)
+[![NPM](https://nodei.co/npm/node-media-manager.png)](https://nodei.co/npm/node-media-manager/)
 
 Node Media Manager is a library to browse a specific directory, like home. Is intend to get list of contents in a directory. Expressjs
 is supported. Work in progress.
