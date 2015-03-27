@@ -86,11 +86,11 @@ describe('#express', function(){
             var browser = req.browser;
 
             browser.open(browser.root, function(err, list){
-                if(err){
+                process.nextTick(function () {
                     err.message.should.equal("Permission denied to access folder outside home.");
-                }
 
-                res.status(200).send({});
+                    res.status(200).send({});
+                });
             });
         });
 
