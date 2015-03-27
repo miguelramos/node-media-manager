@@ -133,7 +133,7 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home')),
             image  = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
 
-        folder.add(image, 'myfolder', function(error, file){
+        folder.add(image, 'mydocs', function(error, file){
             file.should.have.property('name');
             file.should.have.property('path');
             file.should.have.property('ext');
@@ -156,7 +156,7 @@ describe('#local', function(){
             done();
         });
 
-        folder.add(image, 'myfolder');
+        folder.add(image, 'mydocs');
     });
 
     it('Should test add file possible security breach on callback.', function(done){
