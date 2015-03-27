@@ -84,7 +84,7 @@ describe('#express', function(){
 
         app.get('/browser', function(req, res){
             var browser = req.browser;
-
+            console.log(browser.root);
             browser.open(browser.root, function(err, list){
                 process.nextTick(function () {
                     err.message.should.equal("Permission denied to access folder outside home.");
