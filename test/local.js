@@ -53,7 +53,7 @@ describe('#local', function(){
 
             done();
         });
-
+        debugger;
         folder.open('../../../');
     });
 
