@@ -106,19 +106,6 @@ is supported. Work in progress.
         });
     });
 
-    //You can go foward and backaward, but not outside home folder
-    app.get("/browser?root=../", function(req, res, next){
-        var browser = req.browser;
-
-        browser.open(browser.root, function(err, list){
-            if(err){
-                return console.log(err);
-            }
-
-            res.status(200).send(list);
-        });
-    });
-
 ## Tests
 
     npm test
