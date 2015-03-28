@@ -4,7 +4,17 @@
 [![Code Climate](https://codeclimate.com/github/miguelramos/node-media-manager/badges/gpa.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 [![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 
-### 2015-03-27
+### 2015-03-28
+    - Added tests for express in mkdir and rmdir. Update read file.
+    - Adde test to mkdir without mode.
+    - Added test on local for mkdir, rmdir and errors.
+    - Update package.json to 0.0.3 tag.
+    - Added method mkdir and rm dir to local.
+    - Added version 0.0.3 to read. Prepare to merge to master.
+    - Correction of read file.
+    - Update read file. Update local tests for argument name.
+    - Added parted module package to test upload file. Local add method increment optional name argument. Express test for uploading file.
+    - Start upload file tests for express.
     - Add test to fail if folder destination don't exist.
     - Problem was directory didn't exist. Fix #6 issue.
     - Make process writeFile to be called by process.TickNext to check concurrence between read and write.
@@ -17,12 +27,11 @@
     - Debugging travis error.
     - Local test don't fall but travis is failing in security breach.
     - Local permission denied didn't break the flow. Tests updated.
+
+### 2015-03-27
     - Checking why in travis error in security breach is null.
     - Update tests on local to check if nextTick is done it.
     - Update README file for instructions.
-    - Added more tests to local check new features. Prepare to pass to branch develop.
-
-### 2015-03-26
     - Added more tests to local check new features. Prepare to pass to branch develop.
     - Final updates to publish package.
     - Changelog update.
@@ -36,11 +45,11 @@
     - Remove search on item type because file name have extension. Tests on local and stat for exceptions.
     - Test for stat exception error.
     - Check how to catch exceptions on mocha.
+
+### 2015-03-26
     - Added changelog. Local open dir should be a relative path to home dir. Prepare to change open absolute dir and find a way to check is not a outside home folder access.
     - Test security breach on express middleware.
     - Refactor folder to local.
-
-### 2015-03-25
     - Change makefile and travis options. Added mocha.opts to add options to mocha tests.
     - Refactor test on travis and makefile to be recursive.
     - Coverage test is going to be on codeclimate and coverall. Badges and modules updated. Added more two tests for internal middleware check.
@@ -52,13 +61,13 @@
     - Missing colon on mim file. Fixes #4.
     - Refactor error styles not passing on coverage tests.
     - Added more geek badges.
+
+### 2015-03-25
     - Codecov badge added.
     - Test coverage reports.
     - Updating twitter wrong link.
     - Updating link on badge author.
     - Added coverall and author badge to read file.
-
-### 2015-03-24
     - Clean index file. Added express test to find folder.
     - Added module body-parser for test on express as dev.  Express middleware browser define a property called current on browser instance to define current folder to list. Added more express tests for middleware.
     - Prepare main function Browser on index. Added to MakeFile test for express. Added devdependencie of express. Init express tests. Added method to mime to reset mimes types to default.
@@ -67,4 +76,8 @@
     - Remove merge module to be compatible with node 0.8. Added function merge to utils.
     - Added support for tracis-ci. Test with option check-leaks. Added express file for init middleware support.
     - Index file at the moment point to test. Added merge and string modules. Folder has to have argument home, defining home(base) dir. Added find method to search for file or folder. Added mime property display to check if is visible or hidden. Added function isHidden, only working on *unix systems. Method setMimes and getMimes added. Tests for new increments done it.
+
+### 2015-03-24
     - Transform mime to pattern object and add more methods.
+    - Init package project. Added initial files folder and mime. Test to this files done in mocha.
+    - Initial commit

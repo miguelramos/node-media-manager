@@ -184,6 +184,7 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Release History
 
+* 0.0.4 New methods mkdir and rmdir on Local.
 * 0.0.3 New method add files on Local.
 * 0.0.2 Fixing security check
 * 0.0.1 Initial release
