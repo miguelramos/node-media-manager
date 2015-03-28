@@ -133,7 +133,7 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home')),
             image  = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
 
-        folder.add(image, 'mydocs', function(error, file){
+        folder.add(image, 'mydocs', null, function(error, file){
             file.should.have.property('name');
             file.should.have.property('path');
             file.should.have.property('ext');
@@ -163,7 +163,7 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home')),
             image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
 
-        folder.add(image, '../../../', function(error, file){
+        folder.add(image, '../../../', null, function(error, file){
             process.nextTick(function () {
                 error.message.should.equal("Permission denied to access folder outside home.");
 
@@ -189,7 +189,7 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home')),
             image  = path.join(__dirname, 'fixtures', 'xpto.png');
 
-        folder.add(image, 'mydocs', function(error, file){
+        folder.add(image, 'mydocs', null, function(error, file){
             process.nextTick(function () {
                 error.code.should.eql('ENOENT');
 
@@ -215,7 +215,7 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home')),
             image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
 
-        folder.add(image, 'myfolder', function(error, file){
+        folder.add(image, 'myfolder', null, function(error, file){
             process.nextTick(function () {
                 error.code.should.eql('ENOENT');
 

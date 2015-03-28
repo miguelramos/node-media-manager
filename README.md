@@ -32,11 +32,22 @@ is supported. Work in progress.
             'movie'      : ['mkv', 'avi', 'rmvb', 'mpeg', 'wmv']
         }
 
+## Events
+
+* List directory:
+    - onRead
+
+* Add File
+    - onReadFile
+    - onAddFile
+
 ## Usage
 
-    var Browser = require('node-media-manager');
+    var Browser = require('node-media-manager')
+        path    = require('path');
 
     var browser = Browser({home: __dirname, mimes: { "js": ["js"] }});
+    var image   = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
 
     //With callback
     browser.open("/node_modules", function(err, list){
@@ -51,8 +62,15 @@ is supported. Work in progress.
         var findIt = browser.find('pdf');
     });
 
-### Response:
+    folder.on('onAddFile', function(err, file){
+        console.log(file)
+    });
 
+    folder.add(image, 'mydocs');
+
+### Response Example:
+
+    // List Directory
     { files:
         [
             {
@@ -74,7 +92,8 @@ is supported. Work in progress.
 
 ### For express integration.
 
-    var app = express();
+    var app   = express(),
+        image = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
 
     app.use(Browser.express({home: __dirname, mimes: { "js": ["js"] }}));
 
@@ -103,6 +122,20 @@ is supported. Work in progress.
             }
 
             res.status(200).send(list);
+        });
+    });
+
+    //Request: POST /browser/upload?root=/mydocs
+    app.post('/browser/upload', function(req, res){
+        var files   = req.files,
+            browser = req.browser;
+
+        browser.add(files.wallpaper.path, browser.root, files.wallpaper.name, function(err, file){
+            process.nextTick(function() {
+                fs.unlink(files.wallpaper.path, function(){
+                    res.status(200).send(file);
+                });
+            });
         });
     });
 
