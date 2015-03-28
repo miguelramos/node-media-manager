@@ -236,4 +236,47 @@ describe('#express', function(){
 
         request(app).post('/browser/upload?root=%2Fmydocs').field('Content-Type', 'multipart/form-data').attach('wallpaper', image).expect(200, done);
     });
+
+    it('GET /browser/create/dir', function(done){
+
+        var app = express();
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }));
+
+        app.get('/browser/create/dir', function(req, res){
+            var browser = req.browser,
+                mode    = req.query.mode;
+
+            browser.mkdir(browser.root, mode, function(err, dir){
+                dir.should.be.equal(path.join(__dirname, '..', 'home', browser.root));
+
+                res.status(200).send(dir);
+            });
+        });
+
+        request(app).get('/browser/create/dir?root=%2Ftemp&mode=0777').expect(200, done);
+    });
+
+    it('DELETE /browser/dir', function(done){
+
+        var app = express();
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }));
+
+        app.delete('/browser/dir', function(req, res){
+            var browser = req.browser;
+
+            browser.rmdir(browser.root, function(err, dir){
+                dir.should.be.equal(path.join(__dirname, '..', 'home', browser.root));
+
+                res.status(200).send(dir);
+            });
+        });
+
+        request(app).delete('/browser/dir?root=%2Ftemp').expect(200, done);
+    });
 });

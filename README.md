@@ -40,6 +40,8 @@ is supported. Work in progress.
 * Add File
     - onReadFile
     - onAddFile
+    - onMkdir
+    - onRmdir
 
 ## Usage
 
@@ -64,10 +66,22 @@ is supported. Work in progress.
 
     //Add/insert file
     browser.on('onAddFile', function(err, file){
-        console.log(file)
+        console.log(file);
     });
 
     browser.add(image, 'mydocs');
+
+    //Create a directory
+    browser.mkdir('tmp', '0777', function(err, dir){
+        console.log(dir);
+    });
+
+    //Remove directory
+    browser.on('onRmdir', function(err, dir){
+        console.log(dir);
+    });
+
+    browser.rmdir('temp');
 
 ### Response Example:
 
@@ -91,7 +105,7 @@ is supported. Work in progress.
         }
     }
 
-### For express integration.
+### For express integration and how to.
 
     var app   = express(),
         image = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
@@ -137,6 +151,25 @@ is supported. Work in progress.
                     res.status(200).send(file);
                 });
             });
+        });
+    });
+
+    //Create directory
+    app.get('/browser/create/dir', function(req, res){
+        var browser = req.browser,
+            mode    = req.query.mode;
+
+        browser.mkdir(browser.root, mode, function(err, dir){
+            res.status(200).send(dir);
+        });
+    });
+
+    //Remove directory
+    app.delete('/browser/dir', function(req, res){
+        var browser = req.browser;
+
+        browser.rmdir(browser.root, function(err, dir){
+            res.status(200).send(dir);
         });
     });
 
