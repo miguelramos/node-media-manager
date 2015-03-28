@@ -19,7 +19,7 @@ describe('#development', function(){
     it('Debugging', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
-        folder.open("/", function(err, rs){
+        /*folder.rmdir("tmp", function(err, rs){
             if(err) {
                 done(err);
                 return;
@@ -28,6 +28,7 @@ describe('#development', function(){
             (1).should.be.above(0);
 
             done();
-        });
+        });*/
+        done();
     });
 });
