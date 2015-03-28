@@ -62,11 +62,12 @@ is supported. Work in progress.
         var findIt = browser.find('pdf');
     });
 
-    folder.on('onAddFile', function(err, file){
+    //Add/insert file
+    browser.on('onAddFile', function(err, file){
         console.log(file)
     });
 
-    folder.add(image, 'mydocs');
+    browser.add(image, 'mydocs');
 
 ### Response Example:
 
