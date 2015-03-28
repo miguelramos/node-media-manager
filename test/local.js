@@ -236,4 +236,100 @@ describe('#local', function(){
 
         folder.add(image, 'myfolder');
     });
+
+    it('Should test mkdir with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.mkdir('tmp', '0777', function(err, dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'tmp'));
+
+            done();
+        });
+    });
+
+    it('Should test mkdir with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onMkdir', function(err, dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'temp'));
+
+            done();
+        });
+
+        folder.mkdir('temp', '0777');
+    });
+
+    it('Should test rmdir with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.rmdir('tmp', function(err, dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'tmp'));
+
+            done();
+        });
+    });
+
+    it('Should test rmdir with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onRmdir', function(err, dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'temp'));
+
+            done();
+        });
+
+        folder.rmdir('temp');
+    });
+
+    it('Should test mkdir error with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.mkdir('tmp', '0777', function(err, dir){
+            folder.mkdir('tmp', '0777', function(error, dir){
+                error.code.should.eql('EEXIST');
+
+                done();
+            });
+        });
+    });
+
+    it('Should test mkdir error with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onMkdir', function(err, dir){
+            err.code.should.eql('EEXIST');
+
+            done();
+        });
+
+        folder.mkdir('temp', '0777', function(err, dir){
+            folder.mkdir('temp', '0777');
+        });
+    });
+
+    it('Should test rmdir error with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.rmdir('tmp', function(error, dir){
+            folder.rmdir('tmp', function(err, dir){
+                err.code.should.eql('ENOENT');
+
+                done();
+            });
+        });
+    });
+
+    it('Should test rmdir error with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onRmdir', function(err, dir){
+            err.code.should.eql('ENOENT');
+
+            done();
+        });
+
+        folder.rmdir('temp', function(err, dir){
+            folder.rmdir('temp');
+        });
+    });
 });
