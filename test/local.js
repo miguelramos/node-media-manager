@@ -259,6 +259,20 @@ describe('#local', function(){
         folder.mkdir('temp', '0777');
     });
 
+    it('Should test mkdir without mode with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onMkdir', function(err, dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'mode'));
+
+            folder.rmdir('mode', function(err, dir){
+                done();
+            });
+        });
+
+        folder.mkdir('mode');
+    });
+
     it('Should test rmdir with callback.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 
