@@ -4,7 +4,15 @@
 [![Code Climate](https://codeclimate.com/github/miguelramos/node-media-manager/badges/gpa.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 [![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 
+### 2015-03-30
+    - Method move on Local adjustments and finishing. Added more test about move on Local.
+    - Completing method link and add some tests to Local.
+    - Clean rmdir expression ternary.
+    - Refactor some expression to be more cleared.
+    - Added methods move, remove and link to Local. Link is only declared.
+
 ### 2015-03-28
+    - Prepare for tag 0.0.4. Updated package.son and readme file.
     - Added tests for express in mkdir and rmdir. Update read file.
     - Adde test to mkdir without mode.
     - Added test on local for mkdir, rmdir and errors.
@@ -20,6 +28,8 @@
     - Make process writeFile to be called by process.TickNext to check concurrence between read and write.
     - Debugging failure build #50 on travis.
     - Added method to local to add files to home directory. Tests implemented.
+
+### 2015-03-27
     - Update readme version.
     - Version to tag 0.0.2.
     - Fix #5 issue. Prepare to change to branch develop to no more break master. Launching tag 0.0.2.
@@ -27,8 +37,6 @@
     - Debugging travis error.
     - Local test don't fall but travis is failing in security breach.
     - Local permission denied didn't break the flow. Tests updated.
-
-### 2015-03-27
     - Checking why in travis error in security breach is null.
     - Update tests on local to check if nextTick is done it.
     - Update README file for instructions.
@@ -42,14 +50,16 @@
     - Updating bash script for badges.
     - Update read file and changelog bash script.
     - Local callback add error argument. Tests updated to error argument.
+
+### 2015-03-26
     - Remove search on item type because file name have extension. Tests on local and stat for exceptions.
     - Test for stat exception error.
     - Check how to catch exceptions on mocha.
-
-### 2015-03-26
     - Added changelog. Local open dir should be a relative path to home dir. Prepare to change open absolute dir and find a way to check is not a outside home folder access.
     - Test security breach on express middleware.
     - Refactor folder to local.
+
+### 2015-03-25
     - Change makefile and travis options. Added mocha.opts to add options to mocha tests.
     - Refactor test on travis and makefile to be recursive.
     - Coverage test is going to be on codeclimate and coverall. Badges and modules updated. Added more two tests for internal middleware check.
@@ -61,8 +71,6 @@
     - Missing colon on mim file. Fixes #4.
     - Refactor error styles not passing on coverage tests.
     - Added more geek badges.
-
-### 2015-03-25
     - Codecov badge added.
     - Test coverage reports.
     - Updating twitter wrong link.

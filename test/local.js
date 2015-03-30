@@ -475,4 +475,136 @@ describe('#local', function(){
 
         folder.move(from, "mongodb.pdf");
     });
+
+    it('Should test move directory error with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = '.secret';
+
+        folder.move(from, "mydocs", function(error, rs){
+            error.code.should.be.equal('ENOTEMPTY');
+
+            done();
+        });
+    });
+
+    it('Should test move directory error with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = '.secret';
+
+        folder.on('onMove', function(err, rs){
+            err.code.should.be.equal('ENOTEMPTY');
+
+            done();
+        });
+
+        folder.move(from, "mydocs");
+    });
+
+    it('Should test move file error with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = 'mongo-manual.pdf';
+
+        folder.move(from, "mydocs/mongo-manual.pdf", function(error, rs){
+            error.code.should.be.equal('ENOENT');
+
+            done();
+        });
+    });
+
+    it('Should test move file error with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = 'mongo-manual.pdf';
+
+        folder.on('onMove', function(err, rs){
+            err.code.should.be.equal('ENOENT');
+
+            done();
+        });
+
+        folder.move(from, "mongodb.pdf");
+    });
+
+    it('Should test symbolic folder with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = '.secret';
+
+        folder.link(from, "mydocs/secret", function(error, rs){
+            rs.should.have.property('source', path.join(__dirname, 'home', '.secret'));
+            rs.should.have.property('destination', path.join(__dirname, 'home', 'mydocs', 'secret'));
+
+            folder.remove('mydocs/secret', function(err, rs){
+                done();
+            });
+        });
+    });
+
+    it('Should test symbolic folder with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = '.secret';
+
+        folder.on('onSymbolic', function(err, rs){
+            rs.should.have.property('source', path.join(__dirname, 'home', '.secret'));
+            rs.should.have.property('destination', path.join(__dirname, 'home', 'mydocs', 'secret'));
+
+            folder.remove('mydocs/secret', function(err, rs){
+                done();
+            });
+        });
+
+        folder.link(from, "mydocs/secret");
+    });
+
+    it('Should test symbolic file with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = 'mongodb.pdf';
+
+        folder.link(from, "mydocs/manual.pdf", function(error, rs){
+            rs.should.have.property('source', path.join(__dirname, 'home', from));
+            rs.should.have.property('destination', path.join(__dirname, 'home', 'mydocs', 'manual.pdf'));
+
+            folder.remove('mydocs/manual.pdf', function(err, rs){
+                done();
+            });
+        });
+    });
+
+    it('Should test symbolic file with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = 'mongodb.pdf';
+
+        folder.on('onSymbolic', function(err, rs){
+            rs.should.have.property('source', path.join(__dirname, 'home', from));
+            rs.should.have.property('destination', path.join(__dirname, 'home', 'mydocs', 'manual.pdf'));
+
+            folder.remove('mydocs/manual.pdf', function(err, rs){
+                done();
+            });
+        });
+
+        folder.link(from, "mydocs/manual.pdf");
+    });
+
+    it('Should test symbolic folder error with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = '.secret';
+
+        folder.link(from, "mydocs", function(error, rs){
+            error.code.should.be.equal('EEXIST');
+
+            done();
+        });
+    });
+
+    it('Should test symbolic folder error with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = '.secret';
+
+        folder.on('onSymbolic', function(err, rs){
+            err.code.should.be.equal('EEXIST');
+
+            done();
+        });
+
+        folder.link(from, "mydocs");
+    });
 });
