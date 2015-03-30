@@ -298,17 +298,16 @@ describe('#express', function(){
             browser.move(from, to, function(err, rs){
                 if(err){
                     console.log(err);
-                    console.log(rs);
                 }
 
                 rs.should.have.property('from', path.join(__dirname, '..', 'home', 'wallpaper.jpg'));
-                rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mydocs', 'wallpaper.jpg'));
+                rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mydocs', 'power.jpg'));
 
                 res.status(200).send(rs);
             });
         });
 
-        request(app).put('/browser/move?src=wallpaper.jpg&dst=mydocs%2F').expect(200, done);
+        request(app).put('/browser/move?src=wallpaper.jpg&dst=mydocs%2Fpower.jpg').expect(200, done);
     });
 
     it('PUT /browser/link', function(done){
