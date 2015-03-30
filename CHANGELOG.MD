@@ -5,6 +5,13 @@
 [![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 
 ### 2015-03-30
+    - Typo on assert test.
+    - Cannot get why is happens only on test to coverwall.
+    - Cannot be file to dir. It seems size of file that rename method of fs don't like it. Debugging more about it.
+    - Testing if without name this happens.
+    - Continue debugging error for coverwall.
+    - Express test don't find file on directory.
+    - Debugging coverwall test on express move route.
     - Refactor move test of express due error to coverwall.
     - Updating some documentation. Add tests for express and prepare for release 0.0.5.
     - Add method copy for files. Refactor move method. Made tests for local and express.
@@ -28,11 +35,11 @@
     - Update read file. Update local tests for argument name.
     - Added parted module package to test upload file. Local add method increment optional name argument. Express test for uploading file.
     - Start upload file tests for express.
+
+### 2015-03-27
     - Add test to fail if folder destination don't exist.
     - Problem was directory didn't exist. Fix #6 issue.
     - Make process writeFile to be called by process.TickNext to check concurrence between read and write.
-
-### 2015-03-27
     - Debugging failure build #50 on travis.
     - Added method to local to add files to home directory. Tests implemented.
     - Update readme version.
@@ -83,9 +90,9 @@
     - Added coverall and author badge to read file.
     - Clean index file. Added express test to find folder.
     - Added module body-parser for test on express as dev.  Express middleware browser define a property called current on browser instance to define current folder to list. Added more express tests for middleware.
-    - Prepare main function Browser on index. Added to MakeFile test for express. Added devdependencie of express. Init express tests. Added method to mime to reset mimes types to default.
 
 ### 2015-03-24
+    - Prepare main function Browser on index. Added to MakeFile test for express. Added devdependencie of express. Init express tests. Added method to mime to reset mimes types to default.
     - Added node 0.12 to travis and removed 0.8 due incompatibles modules.
     - Added test to utils merge deep.
     - Remove merge module to be compatible with node 0.8. Added function merge to utils.

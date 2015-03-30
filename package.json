@@ -1,6 +1,6 @@
 {
   "name": "node-media-manager",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Media file browser",
   "main": "index.js",
   "scripts": {
