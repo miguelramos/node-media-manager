@@ -311,7 +311,9 @@ describe('#local', function(){
         var folder = new Local(path.join(__dirname, 'home'));
 
         folder.on('onMkdir', function(err, dir){
-            err.code.should.eql('EEXIST');
+            if(err){
+                err.code.should.eql('EEXIST');
+            }
 
             done();
         });
