@@ -5,6 +5,8 @@
 [![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 
 ### 2015-03-30
+    - Refactor move test of express due error to coverwall.
+    - Updating some documentation. Add tests for express and prepare for release 0.0.5.
     - Add method copy for files. Refactor move method. Made tests for local and express.
     - Change move tests directory for unknow directory.
     - Update Changelog. Added test for symbolic method on Local.
@@ -29,10 +31,10 @@
     - Add test to fail if folder destination don't exist.
     - Problem was directory didn't exist. Fix #6 issue.
     - Make process writeFile to be called by process.TickNext to check concurrence between read and write.
-    - Debugging failure build #50 on travis.
-    - Added method to local to add files to home directory. Tests implemented.
 
 ### 2015-03-27
+    - Debugging failure build #50 on travis.
+    - Added method to local to add files to home directory. Tests implemented.
     - Update readme version.
     - Version to tag 0.0.2.
     - Fix #5 issue. Prepare to change to branch develop to no more break master. Launching tag 0.0.2.

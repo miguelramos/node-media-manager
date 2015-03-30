@@ -293,6 +293,10 @@ describe('#express', function(){
                 to      = req.query.to;
 
             browser.move(from, to, function(err, rs){
+                if(err){
+                    console.log(err);
+                }
+
                 rs.should.have.property('from', path.join(__dirname, '..', 'home', '.secret/wallpaper.jpg'));
                 rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mydocs', 'power.jpg'));
 
