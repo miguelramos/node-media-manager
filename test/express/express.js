@@ -297,7 +297,7 @@ describe('#express', function(){
                     console.log(err);
                 } else {
                     rs.should.have.property('from', path.join(__dirname, '..', 'home', 'wallpaper.jpg'));
-                    rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mydocs', 'power.jpg'));
+                    rs.should.have.property('to', path.join(__dirname, '..', 'home', 'power.jpg'));
                 }
 
                 res.status(200).send(rs);
