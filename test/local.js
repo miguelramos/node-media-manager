@@ -348,4 +348,74 @@ describe('#local', function(){
             folder.rmdir('temp');
         });
     });
+
+    it('Should test remove directory with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.mkdir('temp', '0777', function(err, directory){
+            folder.remove('temp', function(err, dir){
+                dir.should.be.equal(directory);
+
+                done();
+            });
+        });
+    });
+
+    it('Should test remove directory with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onRmdir', function(err, dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'tmp'));
+
+            done();
+        });
+
+        folder.mkdir('tmp', '0777', function(err, directory){
+            folder.remove('tmp');
+        });
+    });
+
+    it('Should test remove file with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.remove('mydocs/code-wallpaper-java.png', function(err, file){
+            file.should.be.equal(path.join(__dirname, 'home', 'mydocs/code-wallpaper-java.png'));
+
+            done();
+        });
+    });
+
+    it('Should test remove file with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onRemove', function(err, file){
+            file.should.be.equal(path.join(__dirname, 'home', 'mydocs/code-wallpaper-power.jpg'));
+
+            done();
+        });
+
+        folder.remove('mydocs/code-wallpaper-power.jpg');
+    });
+
+    it('Should test remove directory error with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.remove('temp', function(err, dir){
+            err.code.should.be.equal('ENOENT');
+
+            done();
+        });
+    });
+
+    it('Should test remove file error with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onRemove', function(err, file){
+            err.code.should.be.equal('ENOENT');
+
+            done();
+        });
+
+        folder.remove('mydocs/code-wallpaper-power.jpg');
+    });
 });
