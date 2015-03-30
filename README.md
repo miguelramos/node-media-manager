@@ -43,6 +43,18 @@ is supported. Work in progress.
     - onMkdir
     - onRmdir
 
+* Remove
+    - onRemove (Files or directories)
+
+* Move
+    - onMove (files or directories)
+
+* Copy
+    - onCopy (Just files for now)
+
+* Link
+    - onSymbolic (Files or folders)
+
 ## Usage
 
     var Browser = require('node-media-manager')
@@ -76,12 +88,40 @@ is supported. Work in progress.
         console.log(dir);
     });
 
-    //Remove directory
+    //Delete directory
     browser.on('onRmdir', function(err, dir){
         console.log(dir);
     });
 
     browser.rmdir('temp');
+
+    //Move directories or files
+    browser.on('onMove', function(err, paths){
+        console.log(paths);
+    });
+
+    browser.move('mydocs', '.secret/tmp');
+
+    //Remove directories or files
+    browser.on('onRemove', function(err, rs){
+        console.log(rs);
+    });
+
+    browser.remove('mypics')
+
+    //Symbolic link directories or files
+    browser.on('onSymbolic', function(err, paths){
+        console.log(paths);
+    });
+
+    browser.link('mongodb.pdf', 'mydocs/manual.pdf');
+
+    //Copy file
+    browser.on('onCopy', function(err, rs){
+        console.log(rs);
+    });
+
+    browser.copy('mongodb.pdf', 'mydocs/mongo.pdf');
 
 ### Response Example:
 
@@ -164,12 +204,55 @@ is supported. Work in progress.
         });
     });
 
-    //Remove directory
+    //Delete directory
     app.delete('/browser/dir', function(req, res){
         var browser = req.browser;
 
         browser.rmdir(browser.root, function(err, dir){
             res.status(200).send(dir);
+        });
+    });
+
+    //Move file or directory
+    app.put('/browser/move?from=mypics&to=mydocs/pics', function(req, res){
+        var browser = req.browser,
+            from    = req.query.from,
+            to      = req.query.to;
+
+        browser.move(from, to, function(err, rs){
+            res.status(200).send(rs);
+        });
+    });
+
+    //Create symbolic link folder or file
+    app.put('/browser/link?src=mongodb.pdf&dst=.secret/manual.pdf', function(req, res){
+        var browser = req.browser,
+            from    = req.query.src,
+            to      = req.query.dst;
+
+        browser.link(from, to, function(err, rs){
+            res.status(200).send(rs);
+        });
+    });
+
+    //Remove directories or files
+    app.delete('/browser/delete?dst=.secret/manual.pdf', function(req, res){
+        var browser = req.browser,
+            to      = req.query.dst;
+
+        browser.remove(to, function(err, rs){
+            res.status(200).send(rs);
+        });
+    });
+
+    //Copy file
+    app.put('/browser/copy?src=mongodb.pdf&dst=.secret/mg.pdf', function(req, res){
+        var browser = req.browser,
+            from    = req.query.src,
+            to      = req.query.dst;
+
+        browser.copy(from, to, function(err, rs){
+            res.status(200).send(rs);
         });
     });
 

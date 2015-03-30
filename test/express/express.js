@@ -346,4 +346,27 @@ describe('#express', function(){
 
         request(app).delete('/browser/delete?dst=.secret%2Fmanual.pdf').expect(200, done);
     });
+
+    it('PUT /browser/copy', function(done){
+        var app = express();
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }));
+
+        app.put('/browser/copy', function(req, res){
+            var browser = req.browser,
+                from    = req.query.src,
+                to      = req.query.dst;
+
+            browser.copy(from, to, function(err, rs){
+                rs.should.have.property('from', path.join(__dirname, '..', 'home', 'mongodb.pdf'));
+                rs.should.have.property('to', path.join(__dirname, '..', 'home', '.secret', 'mg.pdf'));
+
+                res.status(200).send(rs);
+            });
+        });
+
+        request(app).put('/browser/copy?src=mongodb.pdf&dst=.secret%2Fmg.pdf').expect(200, done);
+    });
 });
