@@ -349,6 +349,52 @@ describe('#local', function(){
         });
     });
 
+    it('Should test copy file with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.copy('mongodb.pdf', '.secret/mongo.pdf', function(error, paths){
+            paths.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
+            paths.should.have.property('to', path.join(__dirname, 'home', '.secret', 'mongo.pdf'));
+
+            done();
+        });
+    });
+
+    it('Should test copy file with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onCopy', function(err, paths){
+            paths.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
+            paths.should.have.property('to', path.join(__dirname, 'home', '.secret', 'mymongo.pdf'));
+
+            done();
+        });
+
+        folder.copy('mongodb.pdf', '.secret/mymongo.pdf');
+    });
+
+    it('Should test copy file error with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.copy('nofile.pdf', '.secret/nofile.pdf', function(error, paths){
+            error.code.should.be.equal('ENOENT');
+
+            done();
+        });
+    });
+
+    it('Should test copy file error with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home'));
+
+        folder.on('onCopy', function(err, paths){
+            err.code.should.be.equal('ENOENT');
+
+            done();
+        });
+
+        folder.copy('file.pdf', '.secret/file.pdf');
+    });
+
     it('Should test remove directory with callback.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
 

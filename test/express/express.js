@@ -279,4 +279,71 @@ describe('#express', function(){
 
         request(app).delete('/browser/dir?root=%2Ftemp').expect(200, done);
     });
+
+    it('PUT /browser/move', function(done){
+        var app = express();
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }));
+
+        app.put('/browser/move', function(req, res){
+            var browser = req.browser,
+                from    = req.query.from,
+                to      = req.query.to;
+
+            browser.move(from, to, function(err, rs){
+                rs.should.have.property('from', path.join(__dirname, '..', 'home', 'mypics'));
+                rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mydocs', 'pics'));
+
+                res.status(200).send(rs);
+            });
+        });
+
+        request(app).put('/browser/move?from=mypics&to=mydocs%2Fpics').expect(200, done);
+    });
+
+    it('PUT /browser/link', function(done){
+        var app = express();
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }));
+
+        app.put('/browser/link', function(req, res){
+            var browser = req.browser,
+                from    = req.query.src,
+                to      = req.query.dst;
+
+            browser.link(from, to, function(err, rs){
+                rs.should.have.property('source', path.join(__dirname, '..', 'home', 'mongodb.pdf'));
+                rs.should.have.property('destination', path.join(__dirname, '..', 'home', '.secret', 'manual.pdf'));
+
+                res.status(200).send(rs);
+            });
+        });
+
+        request(app).put('/browser/link?src=mongodb.pdf&dst=.secret%2Fmanual.pdf').expect(200, done);
+    });
+
+    it('DELETE /browser/remove', function(done){
+        var app = express();
+
+        app.use(Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        }));
+
+        app.delete('/browser/delete', function(req, res){
+            var browser = req.browser,
+                to      = req.query.dst;
+
+            browser.remove(to, function(err, rs){
+                rs.should.be.equal(path.join(__dirname, '..', 'home', '.secret', 'manual.pdf'));
+
+                res.status(200).send(rs);
+            });
+        });
+
+        request(app).delete('/browser/delete?dst=.secret%2Fmanual.pdf').expect(200, done);
+    });
 });
