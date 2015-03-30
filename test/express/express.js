@@ -293,14 +293,14 @@ describe('#express', function(){
                 to      = req.query.to;
 
             browser.move(from, to, function(err, rs){
-                rs.should.have.property('from', path.join(__dirname, '..', 'home', 'mypics'));
-                rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mydocs', 'pics'));
+                rs.should.have.property('from', path.join(__dirname, '..', 'home', '.secret/wallpaper.jpg'));
+                rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mydocs', 'power.jpg'));
 
                 res.status(200).send(rs);
             });
         });
 
-        request(app).put('/browser/move?from=mypics&to=mydocs%2Fpics').expect(200, done);
+        request(app).put('/browser/move?from=.secret%2Fwallpaper.jpg&to=mydocs%2Fpower.jpg').expect(200, done);
     });
 
     it('PUT /browser/link', function(done){
