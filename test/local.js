@@ -418,4 +418,61 @@ describe('#local', function(){
 
         folder.remove('mydocs/code-wallpaper-power.jpg');
     });
+
+    it('Should test move directory with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = '.secret';
+
+        folder.move(from, "mydocs/tmp", function(error, rs){
+            rs.should.have.property('from', path.join(__dirname, 'home', '.secret'));
+            rs.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'tmp'));
+
+            folder.move('mydocs/tmp', '.secret', function(err, rs){
+                done();
+            });
+        });
+    });
+
+    it('Should test move directory with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = '.secret';
+
+        folder.on('onMove', function(err, rs){
+            rs.should.have.property('from', path.join(__dirname, 'home', '.secret'));
+            rs.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'temp'));
+
+            folder.move('mydocs/temp', '.secret', function(error, rs){
+                done();
+            });
+
+        });
+
+        folder.move(from, "mydocs/temp");
+    });
+
+    it('Should test move file with callback.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = 'mongodb.pdf';
+
+        folder.move(from, "mydocs/mongo-manual.pdf", function(error, rs){
+            rs.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
+            rs.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'mongo-manual.pdf'));
+
+            done();
+        });
+    });
+
+    it('Should test move file with event.', function(done){
+        var folder = new Local(path.join(__dirname, 'home')),
+            from   = 'mydocs/mongo-manual.pdf';
+
+        folder.on('onMove', function(err, rs){
+            rs.should.have.property('to', path.join(__dirname, 'home', 'mongodb.pdf'));
+            rs.should.have.property('from', path.join(__dirname, 'home', 'mydocs', 'mongo-manual.pdf'));
+
+            done();
+        });
+
+        folder.move(from, "mongodb.pdf");
+    });
 });
