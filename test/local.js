@@ -478,10 +478,10 @@ describe('#local', function(){
 
     it('Should test move directory error with callback.', function(done){
         var folder = new Local(path.join(__dirname, 'home')),
-            from   = '.secret';
+            from   = 'xpto';
 
         folder.move(from, "mydocs", function(error, rs){
-            error.code.should.be.equal('ENOTEMPTY');
+            error.code.should.be.equal('ENOENT');
 
             done();
         });
@@ -489,10 +489,10 @@ describe('#local', function(){
 
     it('Should test move directory error with event.', function(done){
         var folder = new Local(path.join(__dirname, 'home')),
-            from   = '.secret';
+            from   = 'xpto';
 
         folder.on('onMove', function(err, rs){
-            err.code.should.be.equal('ENOTEMPTY');
+            err.code.should.be.equal('ENOENT');
 
             done();
         });
