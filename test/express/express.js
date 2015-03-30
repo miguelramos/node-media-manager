@@ -289,8 +289,11 @@ describe('#express', function(){
 
         app.put('/browser/move', function(req, res){
             var browser = req.browser,
-                from    = req.query.from,
-                to      = req.query.to;
+                from    = req.query.src,
+                to      = req.query.dst;
+
+            console.log(from);
+            console.log(to);
 
             browser.move(from, to, function(err, rs){
                 if(err){
@@ -305,7 +308,7 @@ describe('#express', function(){
             });
         });
 
-        request(app).put('/browser/move?from=wallpaper.jpg&to=mydocs%2Fpower.jpg').expect(200, done);
+        request(app).put('/browser/move?src=wallpaper.jpg&dst=mydocs%2Fpower.jpg').expect(200, done);
     });
 
     it('PUT /browser/link', function(done){
