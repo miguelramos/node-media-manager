@@ -7,17 +7,16 @@ var should  = require('should'),
     parted  = require('parted'),
     bodyParser = require('body-parser');
 
-describe('#express', function(){
-    it('Should have function for middleware.', function(){
+describe('#Express', function(){
+    var middleware = Browser.express({
+        home: path.join(__dirname, '..', 'home')
+    });
 
-        var middleware = Browser.express({
-            home: path.join(__dirname, '..', 'home')
-        });
-
+    it('> State: Should have function for middleware.', function(){
         middleware.should.Function;
     });
 
-    it('Should middleware add new property to Browser instance.', function(done){
+    it('> State: Should middleware add new property to Browser instance.', function(done){
 
         var app = express();
 
@@ -37,7 +36,7 @@ describe('#express', function(){
         request(app).get('/browser').expect(200, done);
     });
 
-    it('Should request have property browser with value folder instance.', function(done){
+    /*it('Should request have property browser with value folder instance.', function(done){
         var app = express();
 
         app.use(Browser.express({
@@ -372,5 +371,5 @@ describe('#express', function(){
         });
 
         request(app).put('/browser/copy?src=mongodb.pdf&dst=.secret%2Fmg.pdf').expect(200, done);
-    });
+    });*/
 });

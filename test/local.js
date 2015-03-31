@@ -25,7 +25,27 @@ describe('#Local', function(){
         }).should.throw(Error);
     });
 
-    it('> Error: Should open and error be passed as callback.', function(done){
+    it('> Error: Should throw security error on callback.', function(done){
+        browser.open('../../../', function(error, files){
+            if(error) {
+                error.should.be.instanceOf(Error);
+            }
+
+            done();
+        });
+    });
+
+    it('> Error: Should throw security error on emit.', function(done){
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+
+        browser.open('../../../');
+    });
+
+    it('> Error: Should open and throw error on callback.', function(done){
         browser.open('/path/unknown', function(error, files){
             if(error) {
                 error.should.be.instanceOf(Error);
@@ -35,7 +55,7 @@ describe('#Local', function(){
         });
     });
 
-    it('> Error: Should open and error be emitted.', function(done){
+    it('> Error: Should open and throw error on emit.', function(done){
         browser.on('error', function(error){
             error.should.be.instanceOf(Error);
 
