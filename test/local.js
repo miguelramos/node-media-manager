@@ -88,82 +88,111 @@ describe('#Local', function(){
 
         browser.open('/');
     });
+
+    it('> State: Should add file to home with callback response.', function(done){
+        var image  = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
+
+        browser.add(image, 'mydocs', function(error, file){
+            if(error) {
+                done(error);
+            }
+
+            file.should.have.property('name');
+            file.should.have.property('path');
+            file.should.have.property('ext');
+            file.should.have.property('rel');
+
+            done();
+        });
+    });
+
+    it('> State: Should add file to home with emitter response.', function(done){
+        var image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
+
+        browser.on('finish', function(file){
+            file.should.have.property('name');
+            file.should.have.property('path');
+            file.should.have.property('ext');
+            file.should.have.property('rel');
+
+            done();
+        });
+
+        browser.add(image, 'mydocs');
+    });
+
+    it('> Error: Should throw security error add file thru callback response.', function(done){
+        var image  = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
+
+        browser.add(image, '../../../', function(error, file){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+    });
+
+    it('> Error: Should throw security error add file thru emitter response.', function(done){
+        var image  = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
+
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+
+        browser.add(image, '../../../');
+    });
+
+    it('> Error: Should throw error on read file not exist thru callback response.', function(done){
+        var image  = path.join(__dirname, 'fixtures', 'empty.jpg');
+
+        browser.add(image, 'mydocs', function(error, file){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+    });
+
+    it('> Error: Should throw error on read file not exist thru emmiter response.', function(done){
+        var image  = path.join(__dirname, 'fixtures', 'empty.jpg');
+
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+
+        browser.add(image, 'mydocs');
+    });
+
+    it('> Error: Should throw error on write file thru callback response.', function(done){
+        var image  = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
+
+        browser.add(image, 'mydocs/empty.jpg', function(error, file){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+    });
+
+    it('> Error: Should throw error on write file thru emitter response.', function(done){
+        var image  = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
+
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+
+        browser.add(image, 'mydocs/empty.jpg');
+    });
 });
 
 
 
 
 /*describe('#local', function(){
-    it('Should throw exception constructor path property.', function(){
-        (function() { new Local() }).should.throw(Error);
-    });
 
-    it('Should callback error be present.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.open('/path/xpto', function(err, rs){
-            process.nextTick(function () {
-                err.code.should.eql('ENOENT');
-
-                done();
-            });
-        });
-    });
-
-    it('Should event error be present.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRead', function(err, rs){
-            err.code.should.eql('ENOENT');
-
-            done();
-        });
-
-        folder.open('/path/xpto');
-    });
-
-    it('Should test possible security breach on event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRead', function(err, rs){
-            console.log(err);
-            //err.message.should.equal("Permission denied to access folder outside home.");
-
-            done();
-        });
-
-        folder.open('../../../');
-    });
-
-    it('Should test possible security breach on callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.open('../../../', function(err, rs){
-            process.nextTick(function () {
-                err.message.should.equal("Permission denied to access folder outside home.");
-
-                done();
-            });
-        });
-    });
-
-    it('Should list folder with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.open("/", function(err, rs){
-            done();
-        });
-    });
-
-    it('Should list folder with event emitter.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRead', function(err, rs){
-            done();
-        });
-
-        folder.open("/");
-    });
 
     it('Should find file by extension.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
@@ -207,113 +236,7 @@ describe('#Local', function(){
         folder.open("/");
     });
 
-    it('Should add file to home with callback response.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            image  = path.join(__dirname, 'fixtures', 'code-wallpaper-power.jpg');
 
-        folder.add(image, 'mydocs', null, function(error, file){
-            file.should.have.property('name');
-            file.should.have.property('path');
-            file.should.have.property('ext');
-            file.should.have.property('rel');
-
-            done();
-        });
-    });
-
-    it('Should add file to home with event response.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
-
-        folder.on('onAddFile', function(err, file){
-            file.should.have.property('name');
-            file.should.have.property('path');
-            file.should.have.property('ext');
-            file.should.have.property('rel');
-
-            done();
-        });
-
-        folder.add(image, 'mydocs');
-    });
-
-    it('Should test add file possible security breach on callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
-
-        folder.add(image, '../../../', null, function(error, file){
-            process.nextTick(function () {
-                error.message.should.equal("Permission denied to access folder outside home.");
-
-                done();
-            });
-        });
-    });
-
-    it('Should test add file possible security breach on event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
-
-        folder.on('onReadFile', function(err, file){
-            err.message.should.equal("Permission denied to access folder outside home.");
-
-            done();
-        });
-
-        folder.add(image, '../../../');
-    });
-
-    it('Should test file do not exist with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            image  = path.join(__dirname, 'fixtures', 'xpto.png');
-
-        folder.add(image, 'mydocs', null, function(error, file){
-            process.nextTick(function () {
-                error.code.should.eql('ENOENT');
-
-                done();
-            });
-        });
-    });
-
-    it('Should test file do not exist with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            image  = path.join(__dirname, 'fixtures', 'xpto.png');
-
-        folder.on('onReadFile', function(err, file){
-            err.code.should.eql('ENOENT');
-
-            done();
-        });
-
-        folder.add(image, 'mydocs');
-    });
-
-    it('Should test folder do not exist with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
-
-        folder.add(image, 'myfolder', null, function(error, file){
-            process.nextTick(function () {
-                error.code.should.eql('ENOENT');
-
-                done();
-            });
-        });
-    });
-
-    it('Should test folder do not exist with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            image  = path.join(__dirname, 'fixtures', 'code-wallpaper-java.png');
-
-        folder.on('onAddFile', function(err, file){
-            err.code.should.eql('ENOENT');
-
-            done();
-        });
-
-        folder.add(image, 'myfolder');
-    });
 
     it('Should test mkdir with callback.', function(done){
         var folder = new Local(path.join(__dirname, 'home'));
