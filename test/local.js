@@ -210,6 +210,12 @@ describe('#Local', function(){
     });
 
     it('> State: Should create directory without mode with emitter response.', function(done){
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+
         browser.on('finish', function(dir){
             dir.should.be.equal(path.join(__dirname, 'home', 'great'));
 
