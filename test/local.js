@@ -209,6 +209,24 @@ describe('#Local', function(){
         browser.create('temp', '0777');
     });
 
+    it('> State: Should create directory without mode with emitter response.', function(done){
+        browser.on('finish', function(dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'great'));
+
+            done();
+        });
+
+        browser.create('great');
+    });
+
+    it('> Error: Should throw security error on create directory with callback response.', function(done){
+        browser.create('../../../tmp', '0777', function(error, dir){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+    });
+
     it('> Error: Should throw error on create directory with callback response.', function(done){
         browser.create('tmp', '0777', function(error, dir){
             error.should.be.instanceOf(Error);
@@ -269,6 +287,14 @@ describe('#Local', function(){
         });
 
         browser.remove('mydocs/code-wallpaper-power.jpg');
+    });
+
+    it('> Error: Should throw security error on remove directory with callback response.', function(done){
+        browser.remove('../../..tmp', function(error, dir){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
     });
 
     it('> Error: Should throw error on remove directory with callback response.', function(done){
