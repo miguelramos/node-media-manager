@@ -186,6 +186,108 @@ describe('#Local', function(){
 
         browser.add(image, 'mydocs/empty.jpg');
     });
+
+    it('> State: Should create directory with callback response.', function(done){
+        browser.create('tmp', '0777', function(error, dir){
+            if(error) {
+                done(error);
+            }
+
+            dir.should.be.equal(path.join(__dirname, 'home', 'tmp'));
+
+            done();
+        });
+    });
+
+    it('> State: Should create directory with emitter response.', function(done){
+        browser.on('finish', function(dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'temp'));
+
+            done();
+        });
+
+        browser.create('temp', '0777');
+    });
+
+    it('> Error: Should throw error on create directory with callback response.', function(done){
+        browser.create('tmp', '0777', function(error, dir){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+    });
+
+    it('> Error: Should throw error on create directory with emitter response.', function(done){
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+
+        browser.create('temp', '0777');
+    });
+
+    it('> State: Should remove directory with callback response.', function(done){
+        browser.remove('tmp', function(error, dir){
+            if(error) {
+                done(error);
+            }
+
+            dir.should.be.equal(path.join(__dirname, 'home', 'tmp'));
+
+            done();
+        });
+    });
+
+    it('> State: Should remove directory with emitter response.', function(done){
+        browser.on('finish', function(dir){
+            dir.should.be.equal(path.join(__dirname, 'home', 'temp'));
+
+            done();
+        });
+
+        browser.remove('temp');
+    });
+
+    it('> State: Should remove file with callback response.', function(done){
+        browser.remove('mydocs/code-wallpaper-java.png', function(error, file){
+            if(error) {
+                done(error);
+            }
+
+            file.should.be.equal(path.join(__dirname, 'home', 'mydocs/code-wallpaper-java.png'));
+
+            done();
+        });
+    });
+
+    it('> State: Should remove file with emitter response.', function(done){
+        browser.on('finish', function(file){
+            file.should.be.equal(path.join(__dirname, 'home', 'mydocs/code-wallpaper-power.jpg'));
+
+            done();
+        });
+
+        browser.remove('mydocs/code-wallpaper-power.jpg');
+    });
+
+    it('> Error: Should throw error on remove directory with callback response.', function(done){
+        browser.remove('empty', function(error, file){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+    });
+
+    it('> Error: Should throw error on remove file with emitter response.', function(done){
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
+
+            done();
+        });
+
+        browser.remove('empty.jpg');
+    });
 });
 
 
