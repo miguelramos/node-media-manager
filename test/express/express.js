@@ -15,7 +15,9 @@ describe('#Express', function(){
         var browser = new Browser({home: path.join(__dirname, '..', 'home')});
 
         browser.copy('mypics/wallpaper-power.jpg', 'mypics/code-wallpaper-power.jpg', function(error, rs){
-            browser.remove('mypics/wallpaper-power.jpg');
+            browser.remove('mypics/wallpaper-power.jpg', function(err, list){
+                done();
+            });
         });
     });
 
