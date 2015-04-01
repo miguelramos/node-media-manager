@@ -1,6 +1,6 @@
 {
   "name": "node-media-manager",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Media file browser",
   "main": "index.js",
   "scripts": {
@@ -12,8 +12,11 @@
   },
   "keywords": [
     "browser",
-    "file",
-    "media"
+    "files",
+    "media",
+    "filesystem",
+    "express",
+    "management"
   ],
   "author": "Miguel Ramos <miguel.marques.ramos@gmail.com>",
   "licenses": [

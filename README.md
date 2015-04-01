@@ -34,26 +34,9 @@ is supported. Work in progress.
 
 ## Events
 
-* List directory:
-    - onRead
-
-* Add File
-    - onReadFile
-    - onAddFile
-    - onMkdir
-    - onRmdir
-
-* Remove
-    - onRemove (Files or directories)
-
-* Move
-    - onMove (files or directories)
-
-* Copy
-    - onCopy (Just files for now)
-
-* Link
-    - onSymbolic (Files or folders)
+* All except search and sortBy:
+    - error
+    - finish
 
 ## Usage
 
@@ -68,56 +51,57 @@ is supported. Work in progress.
         console.log(list);
     });
 
-    //With event emitter
-    browser.on('onRead', function(err, list){
+    //Catch emited errors
+    browser.on('error', function(error){
+        console.log(file);
+    });
+
+    //With callback
+    browser.on('finish', function(err, list){
         console.log(list);
 
-        //You can find files by name, extension and folders.
-        var findIt = browser.find('pdf');
+        //You can find files by name, extension or folders.
+        var findIt = browser.search('pdf');
+
+        //Or sort
+        var sort = browser.sortBy('pdf');
     });
 
     //Add/insert file
-    browser.on('onAddFile', function(err, file){
+    browser.on('finish', function(err, file){
         console.log(file);
     });
 
     browser.add(image, 'mydocs');
 
     //Create a directory
-    browser.mkdir('tmp', '0777', function(err, dir){
+    browser.create('tmp', '0777', function(err, dir){
         console.log(dir);
     });
 
-    //Delete directory
-    browser.on('onRmdir', function(err, dir){
+    //Delete directory/files
+    browser.on('finish', function(err, dir){
         console.log(dir);
     });
 
-    browser.rmdir('temp');
+    browser.remove('temp');
 
     //Move directories or files
-    browser.on('onMove', function(err, paths){
+    browser.on('finish', function(err, paths){
         console.log(paths);
     });
 
     browser.move('mydocs', '.secret/tmp');
 
-    //Remove directories or files
-    browser.on('onRemove', function(err, rs){
-        console.log(rs);
-    });
-
-    browser.remove('mypics')
-
     //Symbolic link directories or files
-    browser.on('onSymbolic', function(err, paths){
+    browser.on('finish', function(err, paths){
         console.log(paths);
     });
 
     browser.link('mongodb.pdf', 'mydocs/manual.pdf');
 
     //Copy file
-    browser.on('onCopy', function(err, rs){
+    browser.on('finish', function(err, rs){
         console.log(rs);
     });
 
@@ -195,20 +179,11 @@ is supported. Work in progress.
     });
 
     //Create directory
-    app.get('/browser/create/dir', function(req, res){
+    app.get('/browser/create', function(req, res){
         var browser = req.browser,
             mode    = req.query.mode;
 
-        browser.mkdir(browser.root, mode, function(err, dir){
-            res.status(200).send(dir);
-        });
-    });
-
-    //Delete directory
-    app.delete('/browser/dir', function(req, res){
-        var browser = req.browser;
-
-        browser.rmdir(browser.root, function(err, dir){
+        browser.create(browser.root, mode, function(err, dir){
             res.status(200).send(dir);
         });
     });
@@ -245,7 +220,7 @@ is supported. Work in progress.
         });
     });
 
-    //Copy file
+    //Copy files (only)
     app.put('/browser/copy?src=mongodb.pdf&dst=.secret/mg.pdf', function(req, res){
         var browser = req.browser,
             from    = req.query.src,
@@ -267,6 +242,7 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Release History
 
+* 0.0.6 Refactor all flow and apply best pratices
 * 0.0.5 New methods remove, move, copy and link.
 * 0.0.4 New methods mkdir and rmdir on Local.
 * 0.0.3 New method add files on Local.
