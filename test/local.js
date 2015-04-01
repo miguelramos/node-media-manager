@@ -374,13 +374,13 @@ describe('#Local', function(){
 
     it('> State: Should move file with emitter response.', function(done){
         browser.on('finish', function(file){
-            file.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
-            file.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'mongo.pdf'));
+            file.should.have.property('from', path.join(__dirname, 'home', 'wallpaper.jpg'));
+            file.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'wallpaper.jpg'));
 
             done();
         });
 
-        browser.move('mongodb.pdf', 'mydocs/mongo.pdf');
+        browser.move('wallpaper.jpg', 'mydocs/wallpaper.jpg');
     });
 
     it('> Error: Should throw security error on move directory with callback response.', function(done){
