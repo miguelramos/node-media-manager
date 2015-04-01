@@ -348,7 +348,7 @@ describe('#Express', function(){
             });
         });
 
-        request(app).put('/browser/move?src=mypics/code-wallpaper-java.png&dst=mypics/wallpaper-power.png').expect(200, done);
+        request(app).put('/browser/move?src=mypics/code-wallpaper-power.jpg&dst=mypics/wallpaper-power.jpg').expect(200, done);
     });
 
     it('PUT /browser/link', function(done){
