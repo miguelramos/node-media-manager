@@ -5,6 +5,7 @@
 [![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 
 ### 2015-04-01
+    - Updating changelog. Prepare for new tag 0.0.6.
     - Updating Readme file and prepare package.son for next release.
     - Forgot to call done function on after hook. Implemented.
     - Passing wrong way the path directory. Correction.
@@ -43,9 +44,9 @@
     - Add method copy for files. Refactor move method. Made tests for local and express.
     - Change move tests directory for unknow directory.
     - Update Changelog. Added test for symbolic method on Local.
-    - Method move on Local adjustments and finishing. Added more test about move on Local.
 
 ### 2015-03-30
+    - Method move on Local adjustments and finishing. Added more test about move on Local.
     - Completing method link and add some tests to Local.
     - Clean rmdir expression ternary.
     - Refactor some expression to be more cleared.
