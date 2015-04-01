@@ -15,8 +15,8 @@ var mime   = require('../lib/mime'),
     path   = require('path'),
     should = require('should');
 
-describe('#stat', function(){
-    it('Should have folder properties name, path and type.', function(){
+describe('#Mime State', function(){
+    it('> State: Should have folder properties name, path and type.', function(){
         var stat = mime.stat(path.join(__dirname, 'home'));
 
         stat.should.have.property('name', 'home');
@@ -25,7 +25,7 @@ describe('#stat', function(){
         stat.should.have.property('display');
     });
 
-    it('Should have file properties name, path and type.', function(){
+    it('> State: Should have file properties name, path and type.', function(){
         var stat = mime.stat(path.join(__dirname, 'home', 'mongodb.pdf'));
 
         stat.should.have.property('name', 'mongodb.pdf');
@@ -34,7 +34,7 @@ describe('#stat', function(){
         stat.should.have.property('display');
     });
 
-    it('Should have default mime types.', function(){
+    it('> State: Should have default mime types.', function(){
         var stat = mime.getMimes();
 
         var types = {
@@ -52,7 +52,7 @@ describe('#stat', function(){
         stat.should.be.eql(types);
     });
 
-    it('Should append more mime types.', function(){
+    it('> State: Should append more mime types.', function(){
         mime.setMimes({
             'excel': ['xsl'],
             'xml': ['xml']
@@ -77,7 +77,7 @@ describe('#stat', function(){
         stat.should.be.eql(types);
     });
 
-    it('Should throw exception path not found.', function(){
+    it('> Error: Should throw exception path not found.', function(){
         mime.stat.bind(mime.stat, 'path/xpto').should.throw(Error);
     });
 });
