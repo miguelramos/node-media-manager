@@ -341,8 +341,8 @@ describe('#Express', function(){
                     status = 200;
                 }
 
-                rs.should.have.property('from', path.join(__dirname, '..', 'home', 'mypics/code-wallpaper-java.png'));
-                rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mypics/wallpaper-power.png'));
+                rs.should.have.property('from', path.join(__dirname, '..', 'home', 'mypics/code-wallpaper-power.jpg'));
+                rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mypics/wallpaper-power.jpg'));
 
                 res.status(status).send(rs);
             });
