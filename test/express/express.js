@@ -8,11 +8,14 @@ var should  = require('should'),
     bodyParser = require('body-parser');
 
 describe('#Express', function(){
-    var middleware = Browser.express({
-        home: path.join(__dirname, '..', 'home')
-    });
+
+    var status = 200;
 
     it('> State: Should have function for middleware.', function(){
+        var middleware = Browser.express({
+            home: path.join(__dirname, '..', 'home')
+        });
+
         middleware.should.Function;
     });
 
@@ -36,7 +39,7 @@ describe('#Express', function(){
         request(app).get('/browser').expect(200, done);
     });
 
-    /*it('Should request have property browser with value folder instance.', function(done){
+    it('> State: Should request have property browser with value folder instance.', function(done){
         var app = express();
 
         app.use(Browser.express({
@@ -63,13 +66,18 @@ describe('#Express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.root, function(err, list){
+            browser.open(browser.root, function(error, contents){
+                if(error) {
+                    status = 400;
+                } else {
+                    status = 200;
+                }
 
-                list.should.have.property('files');
+                contents.should.have.property('list');
 
-                (list['files'].length).should.be.above(0);
+                (contents['list'].length).should.be.above(0);
 
-                res.status(200).send(list);
+                res.status(status).send(contents);
             });
         });
 
@@ -86,16 +94,20 @@ describe('#Express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.root, function(err, list){
-                process.nextTick(function () {
-                    err.message.should.equal("Permission denied to access folder outside home.");
+            browser.open(browser.root, function(error, list){
+                if(error) {
+                    status = 400;
+                } else {
+                    status = 200;
+                }
 
-                    res.status(200).send({});
-                });
+                error.should.be.instanceOf(Error);
+
+                res.status(status).send({});
             });
         });
 
-        request(app).get('/browser?root=..%2F..%2F..%2F').expect(200, done);
+        request(app).get('/browser?root=..%2F..%2F..%2F').expect(400, done);
     });
 
     it('GET /browser?root=/mydocs', function(done){
@@ -108,13 +120,18 @@ describe('#Express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.root, function(err, list){
+            browser.open(browser.root, function(error, contents){
+                if(error){
+                    status = 400;
+                } else {
+                    status = 200;
+                }
 
-                list.should.have.property('files');
+                contents.should.have.property('list');
 
-                (list['files'].length).should.be.above(0);
+                (contents['list'].length).should.be.above(0);
 
-                res.status(200).send(list);
+                res.status(status).send(contents);
             });
         });
 
@@ -131,13 +148,18 @@ describe('#Express', function(){
         app.get('/browser', function(req, res){
             var browser = req.browser;
 
-            browser.open(browser.root, function(err, list){
+            browser.open(browser.root, function(error, contents){
+                if(error){
+                    status = 400;
+                } else {
+                    status = 200;
+                }
 
-                list.should.have.property('files');
+                contents.should.have.property('list');
 
-                (list['files'].length).should.be.above(0);
+                (contents['list'].length).should.be.above(0);
 
-                res.status(200).send(list);
+                res.status(status).send(contents);
             });
         });
 
@@ -160,10 +182,10 @@ describe('#Express', function(){
             browser.open(browser.root, function(err, list){
                 var search = req.body.hasOwnProperty('search') ? req.body.search : null;
 
-                var pdf = browser.find(search),
+                var pdf    = browser.search(search),
                     status = pdf ? 200 : 400;
 
-                pdf.should.have.property('type');
+                pdf.length.should.be.above(0);
 
                 res.status(status).send(pdf);
             });
@@ -188,10 +210,10 @@ describe('#Express', function(){
             browser.open(browser.root, function(err, list){
                 var search = req.body.hasOwnProperty('search') ? req.body.search : null;
 
-                var folder = browser.find(search),
+                var folder = browser.search(search),
                     status = folder ? 200 : 400;
 
-                folder.should.have.property('type');
+                folder.length.should.be.above(0);
 
                 res.status(status).send(folder);
             });
@@ -224,11 +246,20 @@ describe('#Express', function(){
             var files   = req.files,
                 browser = req.browser;
 
-            browser.add(files.wallpaper.path, browser.root, files.wallpaper.name, function(err, file){
-                process.nextTick(function() {
-                    fs.unlink(files.wallpaper.path, function(){
-                        res.status(200).send(file);
-                    });
+            browser.add(files.wallpaper.path, browser.root, function(error, file){
+                if(error){
+                    status = 400;
+                } else {
+                    status = 200;
+                }
+
+                file.should.have.property('name');
+                file.should.have.property('path');
+                file.should.have.property('ext');
+                file.should.have.property('rel');
+
+                fs.unlink(file.path, function(){
+                    res.status(status).send(file);
                 });
             });
         });
@@ -236,7 +267,7 @@ describe('#Express', function(){
         request(app).post('/browser/upload?root=%2Fmydocs').field('Content-Type', 'multipart/form-data').attach('wallpaper', image).expect(200, done);
     });
 
-    it('GET /browser/create/dir', function(done){
+    it('GET /browser/create', function(done){
 
         var app = express();
 
@@ -244,21 +275,27 @@ describe('#Express', function(){
             home: path.join(__dirname, '..', 'home')
         }));
 
-        app.get('/browser/create/dir', function(req, res){
+        app.get('/browser/create', function(req, res){
             var browser = req.browser,
                 mode    = req.query.mode;
 
-            browser.mkdir(browser.root, mode, function(err, dir){
+            browser.create(browser.root, mode, function(error, dir){
+                if(error){
+                    status = 400;
+                } else {
+                    status = 200;
+                }
+
                 dir.should.be.equal(path.join(__dirname, '..', 'home', browser.root));
 
-                res.status(200).send(dir);
+                res.status(status).send(dir);
             });
         });
 
-        request(app).get('/browser/create/dir?root=%2Ftemp&mode=0777').expect(200, done);
+        request(app).get('/browser/create?root=%2Ftemp&mode=0777').expect(200, done);
     });
 
-    it('DELETE /browser/dir', function(done){
+    it('DELETE /browser/remove', function(done){
 
         var app = express();
 
@@ -266,17 +303,23 @@ describe('#Express', function(){
             home: path.join(__dirname, '..', 'home')
         }));
 
-        app.delete('/browser/dir', function(req, res){
+        app.delete('/browser/remove', function(req, res){
             var browser = req.browser;
 
-            browser.rmdir(browser.root, function(err, dir){
+            browser.remove(browser.root, function(error, dir){
+                if(error){
+                    status = 400;
+                } else {
+                    status = 200;
+                }
+
                 dir.should.be.equal(path.join(__dirname, '..', 'home', browser.root));
 
-                res.status(200).send(dir);
+                res.status(status).send(dir);
             });
         });
 
-        request(app).delete('/browser/dir?root=%2Ftemp').expect(200, done);
+        request(app).delete('/browser/remove?root=%2Ftemp').expect(200, done);
     });
 
     it('PUT /browser/move', function(done){
@@ -291,19 +334,21 @@ describe('#Express', function(){
                 from    = req.query.src,
                 to      = req.query.dst;
 
-            browser.move(from, to, function(err, rs){
-                if(err){
-                    console.log(err);
+            browser.move(from, to, function(error, rs){
+                if(error){
+                    status = 400;
                 } else {
-                    rs.should.have.property('from', path.join(__dirname, '..', 'home', 'wallpaper.jpg'));
-                    rs.should.have.property('to', path.join(__dirname, '..', 'home', 'power.jpg'));
+                    status = 200;
                 }
 
-                res.status(200).send(rs);
+                rs.should.have.property('from', path.join(__dirname, '..', 'home', 'mypics/code-wallpaper-java.png'));
+                rs.should.have.property('to', path.join(__dirname, '..', 'home', 'mypics/wallpaper-power.png'));
+
+                res.status(status).send(rs);
             });
         });
 
-        request(app).put('/browser/move?src=wallpaper.jpg&dst=power.jpg').expect(200, done);
+        request(app).put('/browser/move?src=mypics/code-wallpaper-java.png&dst=mypics/wallpaper-power.png').expect(200, done);
     });
 
     it('PUT /browser/link', function(done){
@@ -318,11 +363,17 @@ describe('#Express', function(){
                 from    = req.query.src,
                 to      = req.query.dst;
 
-            browser.link(from, to, function(err, rs){
-                rs.should.have.property('source', path.join(__dirname, '..', 'home', 'mongodb.pdf'));
-                rs.should.have.property('destination', path.join(__dirname, '..', 'home', '.secret', 'manual.pdf'));
+            browser.link(from, to, function(error, rs){
+                if(error){
+                    status = 400;
+                } else {
+                    status = 200;
+                }
 
-                res.status(200).send(rs);
+                rs.should.have.property('from', path.join(__dirname, '..', 'home', 'mongodb.pdf'));
+                rs.should.have.property('to', path.join(__dirname, '..', 'home', '.secret', 'manual.pdf'));
+
+                res.status(status).send(rs);
             });
         });
 
@@ -340,10 +391,16 @@ describe('#Express', function(){
             var browser = req.browser,
                 to      = req.query.dst;
 
-            browser.remove(to, function(err, rs){
+            browser.remove(to, function(error, rs){
+                if(error){
+                    status = 400;
+                } else {
+                    status = 200;
+                }
+
                 rs.should.be.equal(path.join(__dirname, '..', 'home', '.secret', 'manual.pdf'));
 
-                res.status(200).send(rs);
+                res.status(status).send(rs);
             });
         });
 
@@ -362,14 +419,20 @@ describe('#Express', function(){
                 from    = req.query.src,
                 to      = req.query.dst;
 
-            browser.copy(from, to, function(err, rs){
+            browser.copy(from, to, function(error, rs){
+                if(error){
+                    status = 400;
+                } else {
+                    status = 200;
+                }
+
                 rs.should.have.property('from', path.join(__dirname, '..', 'home', 'mongodb.pdf'));
                 rs.should.have.property('to', path.join(__dirname, '..', 'home', '.secret', 'mg.pdf'));
 
-                res.status(200).send(rs);
+                res.status(status).send(rs);
             });
         });
 
         request(app).put('/browser/copy?src=mongodb.pdf&dst=.secret%2Fmg.pdf').expect(200, done);
-    });*/
+    });
 });
