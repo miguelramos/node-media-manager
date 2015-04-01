@@ -320,472 +320,135 @@ describe('#Local', function(){
 
         browser.remove('empty.jpg');
     });
-});
 
-
-
-
-/*describe('#local', function(){
-
-
-    it('Should find file by extension.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRead', function(err, rs){
-            var pdf = folder.find('pdf');
-
-            pdf.should.have.property('type').eql('pdf');
-
-            done();
-        });
-
-        folder.open("/");
-    });
-
-    it('Should find folder.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRead', function(err, rs){
-            var fold = folder.find('mydocs');
-
-            fold.should.have.property('type').eql('folder');
-
-            done();
-        });
-
-        folder.open("/");
-    });
-
-    it('Should find file that name contains string.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRead', function(err, rs){
-            var fl = folder.find('db');
-
-            fl.should.have.property('name').containEql('db');
-
-            done();
-        });
-
-        folder.open("/");
-    });
-
-
-
-    it('Should test mkdir with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.mkdir('tmp', '0777', function(err, dir){
-            dir.should.be.equal(path.join(__dirname, 'home', 'tmp'));
-
-            done();
-        });
-    });
-
-    it('Should test mkdir with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onMkdir', function(err, dir){
-            dir.should.be.equal(path.join(__dirname, 'home', 'temp'));
-
-            done();
-        });
-
-        folder.mkdir('temp', '0777');
-    });
-
-    it('Should test mkdir without mode with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onMkdir', function(err, dir){
-            dir.should.be.equal(path.join(__dirname, 'home', 'mode'));
-
-            folder.rmdir('mode', function(err, dir){
-                done();
-            });
-        });
-
-        folder.mkdir('mode');
-    });
-
-    it('Should test rmdir with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.rmdir('tmp', function(err, dir){
-            dir.should.be.equal(path.join(__dirname, 'home', 'tmp'));
-
-            done();
-        });
-    });
-
-    it('Should test rmdir with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRmdir', function(err, dir){
-            dir.should.be.equal(path.join(__dirname, 'home', 'temp'));
-
-            done();
-        });
-
-        folder.rmdir('temp');
-    });
-
-    it('Should test mkdir error with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.mkdir('tmp', '0777', function(err, dir){
-            folder.mkdir('tmp', '0777', function(error, dir){
-                error.code.should.eql('EEXIST');
-
-                done();
-            });
-        });
-    });
-
-    it('Should test mkdir error with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onMkdir', function(err, dir){
-            if(err){
-                err.code.should.eql('EEXIST');
+    it('> State: Should copy file with callback response.', function(done){
+        browser.copy('wallpaper.jpg', 'mydocs/wp.jpg', function(error, file){
+            if(error) {
+                done(error);
             }
 
-            done();
-        });
-
-        folder.mkdir('temp', '0777', function(err, dir){
-            folder.mkdir('temp', '0777');
-        });
-    });
-
-    it('Should test rmdir error with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.rmdir('tmp', function(error, dir){
-            folder.rmdir('tmp', function(err, dir){
-                err.code.should.eql('ENOENT');
-
-                done();
-            });
-        });
-    });
-
-    it('Should test rmdir error with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRmdir', function(err, dir){
-            err.code.should.eql('ENOENT');
-
-            done();
-        });
-
-        folder.rmdir('temp', function(err, dir){
-            folder.rmdir('temp');
-        });
-    });
-
-    it('Should test copy file with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.copy('mongodb.pdf', '.secret/mongo.pdf', function(error, paths){
-            paths.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
-            paths.should.have.property('to', path.join(__dirname, 'home', '.secret', 'mongo.pdf'));
+            file.should.have.property('from', path.join(__dirname, 'home', 'wallpaper.jpg'));
+            file.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'wp.jpg'));
 
             done();
         });
     });
 
-    it('Should test copy file with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onCopy', function(err, paths){
-            paths.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
-            paths.should.have.property('to', path.join(__dirname, 'home', '.secret', 'mymongo.pdf'));
+    it('> State: Should copy file with emitter response.', function(done){
+        browser.on('finish', function(file){
+            file.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
+            file.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'manual.pdf'));
 
             done();
         });
 
-        folder.copy('mongodb.pdf', '.secret/mymongo.pdf');
+        browser.copy('mongodb.pdf', 'mydocs/manual.pdf');
     });
 
-    it('Should test copy file error with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.copy('nofile.pdf', '.secret/nofile.pdf', function(error, paths){
-            error.code.should.be.equal('ENOENT');
-
-            done();
-        });
-    });
-
-    it('Should test copy file error with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onCopy', function(err, paths){
-            err.code.should.be.equal('ENOENT');
+    it('> Error: Should throw security error on copy file with emitter response.', function(done){
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
 
             done();
         });
 
-        folder.copy('file.pdf', '.secret/file.pdf');
+        browser.copy('../../../mongodb.pdf', 'mydocs/manual.pdf');
     });
 
-    it('Should test remove directory with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.mkdir('temp', '0777', function(err, directory){
-            folder.remove('temp', function(err, dir){
-                dir.should.be.equal(directory);
-
-                done();
-            });
-        });
-    });
-
-    it('Should test remove directory with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRmdir', function(err, dir){
-            dir.should.be.equal(path.join(__dirname, 'home', 'tmp'));
-
-            done();
-        });
-
-        folder.mkdir('tmp', '0777', function(err, directory){
-            folder.remove('tmp');
-        });
-    });
-
-    it('Should test remove file with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.remove('mydocs/code-wallpaper-java.png', function(err, file){
-            file.should.be.equal(path.join(__dirname, 'home', 'mydocs/code-wallpaper-java.png'));
+    it('> Error: Should throw error on copy file with callback response.', function(done){
+        browser.copy('nofile.pdf', 'mydocs/manual.pdf', function(error, file){
+            error.should.be.instanceOf(Error);
 
             done();
         });
     });
 
-    it('Should test remove file with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRemove', function(err, file){
-            file.should.be.equal(path.join(__dirname, 'home', 'mydocs/code-wallpaper-power.jpg'));
-
-            done();
-        });
-
-        folder.remove('mydocs/code-wallpaper-power.jpg');
-    });
-
-    it('Should test remove directory error with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.remove('temp', function(err, dir){
-            err.code.should.be.equal('ENOENT');
+    it('> State: Should move directory with callback response.', function(done){
+        browser.move('mypics', 'mydocs/pics', function(error, dir){
+            dir.should.have.property('from', path.join(__dirname, 'home', 'mypics'));
+            dir.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'pics'));
 
             done();
         });
     });
 
-    it('Should test remove file error with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home'));
-
-        folder.on('onRemove', function(err, file){
-            err.code.should.be.equal('ENOENT');
+    it('> State: Should move file with emitter response.', function(done){
+        browser.on('finish', function(file){
+            file.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
+            file.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'mongo.pdf'));
 
             done();
         });
 
-        folder.remove('mydocs/code-wallpaper-power.jpg');
+        browser.move('mongodb.pdf', 'mydocs/mongo.pdf');
     });
 
-    it('Should test move directory with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = '.secret';
-
-        folder.move(from, "mydocs/tmp", function(error, rs){
-            rs.should.have.property('from', path.join(__dirname, 'home', '.secret'));
-            rs.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'tmp'));
-
-            folder.move('mydocs/tmp', '.secret', function(err, rs){
-                done();
-            });
-        });
-    });
-
-    it('Should test move directory with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = '.secret';
-
-        folder.on('onMove', function(err, rs){
-            rs.should.have.property('from', path.join(__dirname, 'home', '.secret'));
-            rs.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'temp'));
-
-            folder.move('mydocs/temp', '.secret', function(error, rs){
-                done();
-            });
-
-        });
-
-        folder.move(from, "mydocs/temp");
-    });
-
-    it('Should test move file with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = 'mongodb.pdf';
-
-        folder.move(from, "mydocs/mongo-manual.pdf", function(error, rs){
-            rs.should.have.property('from', path.join(__dirname, 'home', 'mongodb.pdf'));
-            rs.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'mongo-manual.pdf'));
+    it('> Error: Should throw security error on move directory with callback response.', function(done){
+        browser.move('../../..tmp', 'mydocs/tmp', function(error, dir){
+            error.should.be.instanceOf(Error);
 
             done();
         });
     });
 
-    it('Should test move file with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = 'mydocs/mongo-manual.pdf';
-
-        folder.on('onMove', function(err, rs){
-            rs.should.have.property('to', path.join(__dirname, 'home', 'mongodb.pdf'));
-            rs.should.have.property('from', path.join(__dirname, 'home', 'mydocs', 'mongo-manual.pdf'));
+    it('> Error: Should throw error on move file with emitter response.', function(done){
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
 
             done();
         });
 
-        folder.move(from, "mongodb.pdf");
+        browser.move('nofile.pdf', 'mydocs/nofile.pdf');
     });
 
-    it('Should test move directory error with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = 'xpto';
-
-        folder.move(from, "mydocs", function(error, rs){
-            error.code.should.be.equal('ENOENT');
+    it('> State: Should link directory with callback response.', function(done){
+        browser.link('.secret', 'mydocs/secret', function(error, link){
+            link.should.have.property('from', path.join(__dirname, 'home', '.secret'));
+            link.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'secret'));
 
             done();
         });
     });
 
-    it('Should test move directory error with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = 'xpto';
-
-        folder.on('onMove', function(err, rs){
-            err.code.should.be.equal('ENOENT');
+    it('> State: Should link file with emitter response.', function(done){
+        browser.on('finish', function(link){
+            link.should.have.property('from', path.join(__dirname, 'home', '.secret/mongodb.pdf'));
+            link.should.have.property('to', path.join(__dirname, 'home', 'mydocs', 'my.pdf'));
 
             done();
         });
 
-        folder.move(from, "mydocs");
+        browser.link('.secret/mongodb.pdf', 'mydocs/my.pdf');
     });
 
-    it('Should test move file error with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = 'mongo-manual.pdf';
-
-        folder.move(from, "mydocs/mongo-manual.pdf", function(error, rs){
-            error.code.should.be.equal('ENOENT');
-
-            done();
-        });
-    });
-
-    it('Should test move file error with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = 'mongo-manual.pdf';
-
-        folder.on('onMove', function(err, rs){
-            err.code.should.be.equal('ENOENT');
+    it('> Error: Should throw security error on link file with emitter response.', function(done){
+        browser.on('error', function(error){
+            error.should.be.instanceOf(Error);
 
             done();
         });
 
-        folder.move(from, "mongodb.pdf");
+        browser.link('../../../nofile.pdf', 'mydocs/nofile.pdf');
     });
 
-    it('Should test symbolic folder with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = '.secret';
-
-        folder.link(from, "mydocs/secret", function(error, rs){
-            rs.should.have.property('source', path.join(__dirname, 'home', '.secret'));
-            rs.should.have.property('destination', path.join(__dirname, 'home', 'mydocs', 'secret'));
-
-            folder.remove('mydocs/secret', function(err, rs){
-                done();
-            });
-        });
-    });
-
-    it('Should test symbolic folder with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = '.secret';
-
-        folder.on('onSymbolic', function(err, rs){
-            rs.should.have.property('source', path.join(__dirname, 'home', '.secret'));
-            rs.should.have.property('destination', path.join(__dirname, 'home', 'mydocs', 'secret'));
-
-            folder.remove('mydocs/secret', function(err, rs){
-                done();
-            });
-        });
-
-        folder.link(from, "mydocs/secret");
-    });
-
-    it('Should test symbolic file with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = 'mongodb.pdf';
-
-        folder.link(from, "mydocs/manual.pdf", function(error, rs){
-            rs.should.have.property('source', path.join(__dirname, 'home', from));
-            rs.should.have.property('destination', path.join(__dirname, 'home', 'mydocs', 'manual.pdf'));
-
-            folder.remove('mydocs/manual.pdf', function(err, rs){
-                done();
-            });
-        });
-    });
-
-    it('Should test symbolic file with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = 'mongodb.pdf';
-
-        folder.on('onSymbolic', function(err, rs){
-            rs.should.have.property('source', path.join(__dirname, 'home', from));
-            rs.should.have.property('destination', path.join(__dirname, 'home', 'mydocs', 'manual.pdf'));
-
-            folder.remove('mydocs/manual.pdf', function(err, rs){
-                done();
-            });
-        });
-
-        folder.link(from, "mydocs/manual.pdf");
-    });
-
-    it('Should test symbolic folder error with callback.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = '.secret';
-
-        folder.link(from, "mydocs", function(error, rs){
-            error.code.should.be.equal('EEXIST');
+    it('> Error: Should throw error on link directory with callback response.', function(done){
+        browser.link('.secret', 'mydocs', function(error, link){
+            error.should.be.instanceOf(Error);
 
             done();
         });
     });
 
-    it('Should test symbolic folder error with event.', function(done){
-        var folder = new Local(path.join(__dirname, 'home')),
-            from   = '.secret';
+    it('> State: Should find directories with callback response.', function(done){
+        browser.open('/', function(error, files){
+            if(error) {
+                error.should.be.instanceOf(Error);
+            }
 
-        folder.on('onSymbolic', function(err, rs){
-            err.code.should.be.equal('EEXIST');
+            browser.search('my').length.should.be.above(0);
 
             done();
         });
-
-        folder.link(from, "mydocs");
     });
-});*/
+
+});
