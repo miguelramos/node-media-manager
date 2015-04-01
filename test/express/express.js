@@ -12,7 +12,7 @@ describe('#Express', function(){
     var status = 200;
 
     after(function(done){
-        var browser = new Local(path.join(__dirname, 'home'));
+        var browser = new Browser(path.join(__dirname, 'home'));
 
         browser.move(path.join(__dirname, '..', 'home', 'mypics/wallpaper-power.jpg'), path.join(__dirname, '..', 'home', 'mypics/code-wallpaper-power.jpg'));
     });
