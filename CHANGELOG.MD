@@ -5,6 +5,17 @@
 [![Test Coverage](https://codeclimate.com/github/miguelramos/node-media-manager/badges/coverage.svg)](https://codeclimate.com/github/miguelramos/node-media-manager)
 
 ### 2015-04-01
+    - Updating Readme file and prepare package.son for next release.
+    - Forgot to call done function on after hook. Implemented.
+    - Passing wrong way the path directory. Correction.
+    - Home path directory wrong. Correction.
+    - Change from move to copy and remove old file on after hook.
+    - Correction of paths on hook after in express test.
+    - Typo correction on name class.
+    - Add hook after to express tests.
+    - Correction of assertion paths.
+    - Update test for coverwalls.
+    - Refactor express tests. Update changelog.
     - Docblocks on local functions and methods. Complete local tests and add after hook to clean test directory.
     - Changed test move file to wallpaper, because other test needs the pdf file present on root directory,
     - Correction errors.
@@ -15,9 +26,9 @@
     - Added tests to create and remove to test security issues.
     - Method create and remove refactor for the new flow. Tests add to local.
     - Method add refactor for new flow. Tests to local added.
-    - Local construct assign domain to handle emit events. Function done to treat response from flow. isOutside is now a function and not a method. Tests updated to the new flow.
 
 ### 2015-03-31
+    - Local construct assign domain to handle emit events. Function done to treat response from flow. isOutside is now a function and not a method. Tests updated to the new flow.
     - Refactor all Local flow. This should be a major release but after analyze code and flow this should be changed because som patterns are not good. DRY have happen two times. Tests should be more accurate. This build will be broken.
     - Preparing to publish and merge tag 0.0.5.
     - Typo on assert test.
@@ -33,9 +44,9 @@
     - Change move tests directory for unknow directory.
     - Update Changelog. Added test for symbolic method on Local.
     - Method move on Local adjustments and finishing. Added more test about move on Local.
-    - Completing method link and add some tests to Local.
 
 ### 2015-03-30
+    - Completing method link and add some tests to Local.
     - Clean rmdir expression ternary.
     - Refactor some expression to be more cleared.
     - Added methods move, remove and link to Local. Link is only declared.
@@ -57,13 +68,13 @@
     - Make process writeFile to be called by process.TickNext to check concurrence between read and write.
     - Debugging failure build #50 on travis.
     - Added method to local to add files to home directory. Tests implemented.
+
+### 2015-03-27
     - Update readme version.
     - Version to tag 0.0.2.
     - Fix #5 issue. Prepare to change to branch develop to no more break master. Launching tag 0.0.2.
     - Problem identified. tests run under travis user and is path have home word in path. Check should substring home path and check from home to forward.
     - Debugging travis error.
-
-### 2015-03-27
     - Local test don't fall but travis is failing in security breach.
     - Local permission denied didn't break the flow. Tests updated.
     - Checking why in travis error in security breach is null.
@@ -79,20 +90,20 @@
     - Updating bash script for badges.
     - Update read file and changelog bash script.
     - Local callback add error argument. Tests updated to error argument.
-    - Remove search on item type because file name have extension. Tests on local and stat for exceptions.
-    - Test for stat exception error.
 
 ### 2015-03-26
+    - Remove search on item type because file name have extension. Tests on local and stat for exceptions.
+    - Test for stat exception error.
     - Check how to catch exceptions on mocha.
     - Added changelog. Local open dir should be a relative path to home dir. Prepare to change open absolute dir and find a way to check is not a outside home folder access.
     - Test security breach on express middleware.
     - Refactor folder to local.
+
+### 2015-03-25
     - Change makefile and travis options. Added mocha.opts to add options to mocha tests.
     - Refactor test on travis and makefile to be recursive.
     - Coverage test is going to be on codeclimate and coverall. Badges and modules updated. Added more two tests for internal middleware check.
     - Testing and decide what coverage to use.
-
-### 2015-03-25
     - Some refactors on code style.
     - Correction of wrong var after changing name var for issue #2.
     - Refactor missing new operator for coverage test. Fixes #2.
