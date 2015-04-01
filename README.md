@@ -169,7 +169,7 @@ is supported. Work in progress.
         var files   = req.files,
             browser = req.browser;
 
-        browser.add(files.wallpaper.path, browser.root, files.wallpaper.name, function(err, file){
+        browser.add(files.wallpaper.path, browser.root, function(err, file){
             process.nextTick(function() {
                 fs.unlink(files.wallpaper.path, function(){
                     res.status(200).send(file);
@@ -242,7 +242,7 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Release History
 
-* 0.0.6 Refactor all flow and apply best pratices
+* 0.0.6 Refactor all flow and apply best practices.
 * 0.0.5 New methods remove, move, copy and link.
 * 0.0.4 New methods mkdir and rmdir on Local.
 * 0.0.3 New method add files on Local.
