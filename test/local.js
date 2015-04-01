@@ -3,7 +3,7 @@
 /**
  *
  * ----------------------------------------------------------------------------
- * folder.js
+ * local.js
  * ----------------------------------------------------------------------------
  *
  * This file is part of browser Project.
@@ -18,6 +18,24 @@ var Local  = require('../lib/local'),
 
 describe('#Local', function(){
     var browser = new Local(path.join(__dirname, 'home'));
+
+    after(function(done){
+        browser.remove('great', function(error, levelA){
+            browser.remove('mydocs/secret', function(error, levelB){
+                browser.remove('mydocs/my.pdf', function(error, levelC){
+                    browser.remove('mydocs/wp.jpg', function(error, levelD){
+                        browser.copy('mydocs/wallpaper.jpg', 'wallpaper.jpg', function(error, levelE){
+                            browser.remove('mydocs/wallpaper.jpg', function(error, levelF){
+                                browser.move('mydocs/pics', 'mypics', function(error, levelG){
+                                    done();
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 
     it('> Error: Should throw exception constructor path property.', function(){
         (function() {
@@ -439,13 +457,25 @@ describe('#Local', function(){
         });
     });
 
-    it('> State: Should find directories with callback response.', function(done){
+    it('> State: Should find directories.', function(done){
         browser.open('/', function(error, files){
             if(error) {
                 error.should.be.instanceOf(Error);
             }
 
             browser.search('my').length.should.be.above(0);
+
+            done();
+        });
+    });
+
+    it('> State: Should sort by pdf files.', function(done){
+        browser.open('/', function(error, files){
+            if(error) {
+                error.should.be.instanceOf(Error);
+            }
+
+            browser.sortBy('pdf').length.should.be.above(0);
 
             done();
         });
