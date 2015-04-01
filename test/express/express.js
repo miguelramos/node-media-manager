@@ -14,7 +14,7 @@ describe('#Express', function(){
     after(function(done){
         var browser = new Browser(path.join(__dirname, 'home'));
 
-        browser.move(path.join(__dirname, '..', 'home', 'mypics/wallpaper-power.jpg'), path.join(__dirname, '..', 'home', 'mypics/code-wallpaper-power.jpg'));
+        browser.move('mypics/wallpaper-power.jpg', 'mypics/code-wallpaper-power.jpg');
     });
 
     it('> State: Should have function for middleware.', function(){
